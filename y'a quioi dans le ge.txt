@@ -4,9 +4,9 @@ y'a quioi dans le ge:
 
 -tuto : afficher les regles
 
--personnage : -inventaire : arme, armure ,(potion/regen auto)?, argent
+-personnage : (-inventaire : arme, armure ,(potion/regen auto)?, argent)
 	      -stats : pv, defense, atk, vit, mana, lvl
-	      -compétence : utilise mana
+	      (-compétence : utilise mana)
 
 -les salles : -1 combat: normal ou boss(1/5 avec coffre garantie)
 	      -1 shop : aléatoire(items commun, rare, épique, potion)
