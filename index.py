@@ -12,19 +12,33 @@ def rarityPicker():
         return "légendaire"
     elif chance == 1:
         return "mythique"
-
-class chests:
+    
+class character:
     def __init__(self):
-        self.length = 1000000000
+        self.pv = 100
+        self.attack = 5
+        self.defence = 5
+        self.items = []
+        self.exp = 0
+        self.limitExp = 1
+        self.lvl = 1
+        self.chests = 1
+
+character = character()
+
+class chestsSystem:
+    def __init__(self):
         self.currentRarity = rarityPicker()
+        self.item = "Bâton"
     def openChest(self):
-        if self.length == 0:
+        if character.chests == 0:
             return "Vous n'avez pas de coffre !"
-        self.length = self.length - 1
-        print(f"Vous avez obtenu un item {self.currentRarity} !\nIl vous reste {self.length} coffre(s) !")
+        character.chests = character.chests - 1
+        character.items.append(self.item)
+        print(f"Vous avez obtenu un item {self.currentRarity} !\nIl vous reste {character.chests} coffre(s) !")
         self.currentRarity = rarityPicker()
         return
         
+chest = chestsSystem()
 
-        
-chest = chests()
+chest.openChest()
