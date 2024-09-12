@@ -1,0 +1,18 @@
+y'a quioi dans le ge:
+
+-Concept : donjon apres donjon quand on meurt on reset
+
+-tuto : afficher les regles
+
+-personnage : -inventaire : arme, armure ,(potion/regen auto)?, argent
+	      -stats : pv, defense, atk, vit, mana, lvl
+	      -compétence : utilise mana
+
+-les salles : -1 combat: normal ou boss(1/5 avec coffre garantie)
+	      -1 shop : aléatoire(items commun, rare, épique, potion)
+
+-les stremons : -(meme stat joueur)??, lvl calqué sur le joueur 
+	        -boss : 2 stat hasard boosté
+
+
+
