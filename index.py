@@ -20,11 +20,20 @@ class character:
         self.defence = 5
         self.items = []
         self.exp = 0
+        self.mana = 20
         self.limitExp = 1
         self.lvl = 1
         self.chests = 1
 
 character = character()
+
+
+class monstres:
+    def __init__(self):
+        self.pv = 95
+        self.attack = 4
+        self.defence = 4
+       
 
 class chestsSystem:
     def __init__(self):
