@@ -1,0 +1,5 @@
+class inventory:
+    def __init__(self):
+        self.item = {}
+        self.armor = []
+        self.weapon = []
