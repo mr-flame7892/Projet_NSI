@@ -1,7 +1,5 @@
 import random
 
-
-    
 class character:
     def __init__(self):
         self.pv = 100
@@ -21,11 +19,14 @@ class monstres:
         self.pv = 95
         self.attack = 4
         self.defence = 4
-        self.boss = random.randint(0,100)
+        self.boss = False
+
+        chanceBoss = random.randint(1,100)
+        
+        if chanceBoss <= 20:
+            self.boss = True
 
 monstre = monstres()
-
-
 
 def rarityPicker():
     chance = random.randint(1, 100)
@@ -39,7 +40,6 @@ def rarityPicker():
         return "légendaire"
     elif chance == 1:
         return "mythique"
-       
 
 class chestsSystem:
     def __init__(self):
