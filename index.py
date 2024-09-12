@@ -20,7 +20,6 @@ class character:
         self.defence = 5
         self.items = []
         self.exp = 0
-        self.mana = 20
         self.limitExp = 1
         self.lvl = 1
         self.chests = 1
