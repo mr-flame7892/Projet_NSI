@@ -5,9 +5,11 @@ class character:
         self.startPV = 100
         self.startDMG = 5
         self.startDef = 5
+        self.startSpeed = 30
         self.items = { "PotionSoin": 2, "PotionMana": 2}
-        self.armor = { "name": "Tunique de Cuire", "pv": 5/100, "def": 10/100}
-        self.weapon = { "name": "Baton", "dmg": 5/100 }
+        self.armor = { "name": "Tunique de Cuire", "pv": 10/100, "def": 25/100}
+        self.boots = { "name": "Bottes de cuir", "speed": 15/100 }
+        self.weapon = { "name": "Branche d'Arbre", "dmg": 5/100 }
         self.exp = 0
         self.limitExp = 1
         self.lvl = 1
@@ -15,7 +17,14 @@ class character:
         self.room = 1
         self.currentPV = self.startPV + self.startPV * self.armor["pv"]
         self.currentDef = self.startDef + self.startDef * self.armor["def"]
+        self.currentSpeed = self.startSpeed + self.startSpeed * self.boots["speed"]
         self.currentDMG = self.startDMG + self.startDMG * self.weapon["dmg"]
+    def getStats(self):
+        print(f"Votre personnage à :\n\n- {self.currentPV} PV ({self.startPV} de base)\n- {self.currentDef} DEF ({self.startDef} de base)\n- {self.currentSpeed} SPEED ({self.startSpeed} de base)\n- {self.currentDMG} DMG ({self.startDMG} de base)")
+        return
+    def seeInventory(self):
+        print(f"Votre personnage à :\n\n- Armure : {self.armor['name']}\n- Bottes : {self.boots['name']}\n- Arme : {self.weapon['name']}")
+        return
 
 character = character()
 
