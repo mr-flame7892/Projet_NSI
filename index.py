@@ -165,3 +165,5 @@ if tuto == "y":
     launchGame()
 elif tuto == "n":
     launchGame()
+else:
+    tuto = input("tuto ? (y/n)")
