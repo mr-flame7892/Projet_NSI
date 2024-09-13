@@ -9,18 +9,18 @@ class character:
         self.startDef = 5
         self.startSpeed = 30
         self.items = { "PotionSoin": 2, "PotionMana": 2}
-        self.armor = { "name": "Tunique de Cuire", "pv": 15/100, "def": 25/100}
+        self.armor = { "name": "Tunique de Cuire", "pv": 5/100, "def": 10/100}
         self.boots = { "name": "Bottes de cuir", "speed": 10/100 }
-        self.weapon = { "name": "Branche d'Arbre", "dmg": 20/100 }
+        self.weapon = { "name": "Branche d'Arbre", "dmg": 15/100 }
         self.exp = 0
         self.limitExp = 1
         self.lvl = 1
         self.chests = 0
         self.room = 1
-        self.currentPV = self.startPV + self.startPV * self.armor["pv"]
-        self.currentDef = self.startDef + self.startDef * self.armor["def"]
-        self.currentSpeed = self.startSpeed + self.startSpeed * self.boots["speed"]
-        self.currentDMG = self.startDMG + self.startDMG * self.weapon["dmg"]
+        self.currentPV = round(self.startPV + self.startPV * self.armor["pv"], 0)
+        self.currentDef = round(self.startDef + self.startDef * self.armor["def"], 0)
+        self.currentSpeed = round(self.startSpeed + self.startSpeed * self.boots["speed"], 0)
+        self.currentDMG = round(self.startDMG + self.startDMG * self.weapon["dmg"], 0)
         
     def getStats(self):
         print(f"Votre personnage à :\n\n- {self.currentPV} PV ({self.startPV} de base)\n- {self.currentDef} DEF ({self.startDef} de base)\n- {self.currentSpeed} SPEED ({self.startSpeed} de base)\n- {self.currentDMG} DMG ({self.startDMG} de base)")
@@ -31,17 +31,17 @@ class character:
         return
     
     def calculateStats(self):
-        self.currentPV = self.startPV + self.startPV * self.armor["pv"]
-        self.currentDef = self.startDef + self.startDef * self.armor["def"]
-        self.currentSpeed = self.startSpeed + self.startSpeed * self.boots["speed"]
-        self.currentDMG = self.startDMG + self.startDMG * self.weapon["dmg"]
+        self.currentPV = round(self.startPV + self.startPV * self.armor["pv"], 0)
+        self.currentDef = round(self.startDef + self.startDef * self.armor["def"], 0)
+        self.currentSpeed = round(self.startSpeed + self.startSpeed * self.boots["speed"], 0)
+        self.currentDMG = round(self.startDMG + self.startDMG * self.weapon["dmg"], 0)
         return
     
     def resetCharacter(self):
         self.items = { "PotionSoin": 2, "PotionMana": 2}
-        self.armor = { "name": "Tunique de Cuire", "pv": 15/100, "def": 25/100}
+        self.armor = { "name": "Tunique de Cuire", "pv": 5/100, "def": 10/100}
         self.boots = { "name": "Bottes de cuir", "speed": 10/100 }
-        self.weapon = { "name": "Branche d'Arbre", "dmg": 20/100 }
+        self.weapon = { "name": "Branche d'Arbre", "dmg": 15/100 }
         self.exp = 0
         self.limitExp = 1
         self.lvl = 1
@@ -89,7 +89,7 @@ def rarityPicker():
 class chestsSystem:
     def __init__(self):
         self.currentRarity = rarityPicker()
-        self.item = "Branche d'Arbre"
+        self.item = "Bâton"
     def openChest(self):
         if character.chests == 0:
             return "Vous n'avez pas de coffre !"
@@ -156,14 +156,17 @@ def launchGame():
     while game == True:
         launchRoom()
                   
-
-tuto = input("tuto ? (y/n)")
-
-if tuto == "y":
-    print("Chère joueur, vous aller découvrir un jeux codé grâce au connaissance acquise en spé N.S.I :\n-----------------------\nLe jeux se joue avec la console de Thonny et est uniquement textuel suivez les instructions et profiter du jeu\n----------------------- ")
-    input("Appuyez sur entrée quand vous êtes prêt !")
-    launchGame()
-elif tuto == "n":
-    launchGame()
-else:
+def askTuto():
     tuto = input("tuto ? (y/n)")
+
+    if tuto == "y":
+        print("Chère joueur, vous aller découvrir un jeux codé grâce au connaissance acquise en spé N.S.I :\n-----------------------\nLe jeux se joue avec la console de Thonny et est uniquement textuel suivez les instructions et profiter du jeu\n----------------------- ")
+        input("Appuyez sur entrée quand vous êtes prêt !")
+        launchGame()
+    elif tuto == "n":
+        launchGame()
+    else:
+        askTuto()
+
+askTuto()
+
