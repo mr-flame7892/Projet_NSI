@@ -2,17 +2,20 @@ import random
 
 class character:
     def __init__(self):
-        self.pv = 100
-        self.attack = 5
-        self.defence = 5
+        self.startPV = 100
+        self.startDMG = 5
+        self.startDef = 5
         self.items = { "PotionSoin": 2, "PotionMana": 2}
-        self.armor = { "Tunique de Cuire": { "pv": 5/100, "defence": 10/100}}
-        self.weapon = { "Baton": { "attack": 5/100 }}
+        self.armor = { "name": "Tunique de Cuire", "pv": 5/100, "def": 10/100}
+        self.weapon = { "name": "Baton", "dmg": 5/100 }
         self.exp = 0
         self.limitExp = 1
         self.lvl = 1
         self.chests = 0
         self.room = 1
+        self.currentPV = self.startPV + self.startPV * self.armor["pv"]
+        self.currentDef = self.startDef + self.startDef * self.armor["def"]
+        self.currentDMG = self.startDMG + self.startDMG * self.weapon["dmg"]
 
 character = character()
 
