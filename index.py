@@ -21,18 +21,22 @@ class character:
         self.currentDef = self.startDef + self.startDef * self.armor["def"]
         self.currentSpeed = self.startSpeed + self.startSpeed * self.boots["speed"]
         self.currentDMG = self.startDMG + self.startDMG * self.weapon["dmg"]
+        
     def getStats(self):
         print(f"Votre personnage à :\n\n- {self.currentPV} PV ({self.startPV} de base)\n- {self.currentDef} DEF ({self.startDef} de base)\n- {self.currentSpeed} SPEED ({self.startSpeed} de base)\n- {self.currentDMG} DMG ({self.startDMG} de base)")
         return
+    
     def seeInventory(self):
         print(f"Votre personnage à :\n\n- Armure : {self.armor['name']}\n- Bottes : {self.boots['name']}\n- Arme : {self.weapon['name']}")
         return
+    
     def calculateStats(self):
         self.currentPV = self.startPV + self.startPV * self.armor["pv"]
         self.currentDef = self.startDef + self.startDef * self.armor["def"]
         self.currentSpeed = self.startSpeed + self.startSpeed * self.boots["speed"]
         self.currentDMG = self.startDMG + self.startDMG * self.weapon["dmg"]
         return
+    
     def resetCharacter(self):
         self.items = { "PotionSoin": 2, "PotionMana": 2}
         self.armor = { "name": "Tunique de Cuire", "pv": 15/100, "def": 25/100}
@@ -60,6 +64,7 @@ class monstres:
         
         if chanceBoss <= 20:
             self.boss = True
+            
     def resetMonstre(self):
         self.pv = 95
         self.attack = 4
@@ -139,10 +144,10 @@ def monstreAttacks():
 
 def launchRoom():
     while monstre.pv >= 0 and character.currentPV >= 0:
-            if monstre.speed < character.currentSpeed:
-                characterAttacks()
-            else:
-                monstreAttacks()
+        if monstre.speed < character.currentSpeed:
+            characterAttacks()
+        else:
+            monstreAttacks()
 
 def launchGame():
     rounds.length = 0
