@@ -116,13 +116,16 @@ def monstreAttacks():
             input("--------------------------------\nAppuyez sur Entrée pour continuer le combat")
             characterAttacks()
 
-def launchGame():
-    while game == True:
-        while monstre.pv >= 0 and character.currentPV >= 0:
+def launchRoom():
+    while monstre.pv >= 0 and character.currentPV >= 0:
             if monstre.speed < character.currentSpeed:
                 characterAttacks()
             else:
                 monstreAttacks()
+
+def launchGame():
+    while game == True:
+        launchRoom()
                   
 
 tuto = input("tuto ? (y/n)")
