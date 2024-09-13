@@ -89,7 +89,7 @@ def rarityPicker():
 class chestsSystem:
     def __init__(self):
         self.currentRarity = rarityPicker()
-        self.item = "Bâton"
+        self.item = "Branche d'Arbre"
     def openChest(self):
         if character.chests == 0:
             return "Vous n'avez pas de coffre !"
