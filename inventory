@@ -1,5 +1,5 @@
 class inventory:
     def __init__(self):
-        self.item = {}
-        self.armor = []
-        self.weapon = []
+        self.item = {"Potion de Soin": 2, "Potion de Mana: 2}
+        self.armor = ["Tunique de Cuire"]
+        self.weapon = ["Baton]
