@@ -9,8 +9,8 @@ class character:
         self.startDef = 5
         self.startSpeed = 30
         self.items = { "PotionSoin": 2, "PotionMana": 2}
-        self.armor = { "name": "Tunique de Cuire", "pv": 5/100, "def": 10/100}
-        self.boots = { "name": "Bottes de cuir", "speed": 10/100 }
+        self.armor = { "name": "Tunique en Cuire", "pv": 10/100, "def": 10/100}
+        self.boots = { "name": "Bottes en Cuir", "speed": 10/100 }
         self.weapon = { "name": "Branche d'Arbre", "dmg": 15/100 }
         self.exp = 0
         self.limitExp = 1
@@ -39,8 +39,8 @@ class character:
     
     def resetCharacter(self):
         self.items = { "PotionSoin": 2, "PotionMana": 2}
-        self.armor = { "name": "Tunique de Cuire", "pv": 5/100, "def": 10/100}
-        self.boots = { "name": "Bottes de cuir", "speed": 10/100 }
+        self.armor = { "name": "Tunique en Cuire", "pv": 5/100, "def": 10/100}
+        self.boots = { "name": "Bottes en Cuir", "speed": 10/100 }
         self.weapon = { "name": "Branche d'Arbre", "dmg": 15/100 }
         self.exp = 0
         self.limitExp = 1
@@ -59,10 +59,14 @@ class monstres:
         self.defence = 4
         self.speed = 25
         self.boss = False
+        self.currentPV = self.pv
+        self.currentDef = self.defence
+        self.currentSpeed = self.speed
+        self.currentDMG = self.attack
 
         chanceBoss = random.randint(1,100)
         
-        if chanceBoss <= 20:
+        if (chanceBoss <= 20) and (character.room > 1):
             self.boss = True
             
     def resetMonstre(self):
@@ -70,6 +74,13 @@ class monstres:
         self.attack = 4
         self.defence = 4
         self.speed = 25
+        self.currentPV = 95
+        self.currentDef = 4
+        self.currentSpeed = 25
+        self.currentDMG = 4
+        
+    def getStats(self):
+        return f"Le monstre à :\n\n- {self.currentPV} PV ({self.pv} de base)\n- {self.currentDef} DEF ({self.defence} de base)\n- {self.currentSpeed} SPEED ({self.speed} de base)\n- {self.currentDMG} DMG ({self.attack} de base)"
 
 monstre = monstres()
 
@@ -107,23 +118,32 @@ randomDMG = None
 class tour():
     def __init__(self):
         self.length = 0
+        self.TypeTurn = None
         
 rounds = tour()
 
 def characterAttacks():
+    rounds.TypeTurn = "👤"
     rounds.length = rounds.length + 1
     randomDMG = random.randint(1, 10)
-    DMG = round((randomDMG * character.currentDMG) - ((randomDMG * character.currentDMG) * monstre.defence/100), 0)
-    monstre.pv = round(monstre.pv - DMG, 0)
-    if monstre.pv <= 0:
+    DMG = round((randomDMG * character.currentDMG) - ((randomDMG * character.currentDMG) * monstre.currentDef/100), 0)
+    monstre.currentPV = round(monstre.currentPV - DMG, 0)
+    if monstre.currentPV <= 0:
         print(f"\n--------------------------------\nVous avez triomphé du mal, cependant il vous reste du chemin à parcourir...")
-        game = False
+        restart = input("--------------------------------\nSouhaitez-vous recommencer ? (y/n)")
+        if restart == "y":
+            return launchGame()
+        elif restart == "n":
+            game = False
+            exit()
+            return
     else:
-        print(f"\n--------------------------------\nRound {rounds.length} :\nLe monstre s'est pris {DMG} DMG\nIl lui reste {monstre.pv} PV !")
+        print(f"\n--------------------------------\n{rounds.TypeTurn} Round {rounds.length} :\nLe monstre s'est pris {DMG} DMG\nIl lui reste {monstre.currentPV} PV !")
         input("--------------------------------\nAppuyez sur Entrée pour continuer le combat")
         monstreAttacks()
             
 def monstreAttacks():
+    rounds.TypeTurn = "💀"
     rounds.length = rounds.length + 1
     randomDMG = random.randint(1, 5)
     DMG = round((randomDMG * monstre.attack) - ((randomDMG * monstre.attack) * character.currentDef/100), 0)
@@ -138,13 +158,13 @@ def monstreAttacks():
             exit()
             return
     else:
-        print(f"\n--------------------------------\nRound {rounds.length} :\nVous vous êtes pris {DMG} DMG\nIl vous reste {character.currentPV} PV !")
+        print(f"\n--------------------------------\n{rounds.TypeTurn} Round {rounds.length} :\nVous vous êtes pris {DMG} DMG\nIl vous reste {character.currentPV} PV !")
         input("--------------------------------\nAppuyez sur Entrée pour continuer le combat")
         characterAttacks()
 
 def launchRoom():
-    while monstre.pv >= 0 and character.currentPV >= 0:
-        if monstre.speed < character.currentSpeed:
+    while monstre.currentPV >= 0 and character.currentPV >= 0:
+        if monstre.currentSpeed < character.currentSpeed:
             characterAttacks()
         else:
             monstreAttacks()
@@ -154,6 +174,20 @@ def launchGame():
     monstre.resetMonstre()
     character.resetCharacter()
     while game == True:
+        if monstre.boss == True:
+            i = 0
+            while i <= 1:
+                stat = random.randint(0, 4)
+                if stat == 0:
+                    monstre.currentPV = round((monstre.currentPV * 0.5) + monstre.currentPV, 0)
+                elif stat == 1:
+                    monstre.currentDMG = round((monstre.currentDMG * 0.5) + monstre.currentDMG, 0)
+                elif stat == 2:
+                    monstre.currentDef = round((monstre.currentDef * 0.5) + monstre.currentDef, 0)
+                else:
+                    monstre.currentSpeed = round((monstre.currentSpeed * 0.5) + monstre.currentSpeed, 0)
+                i = i + 1
+            print(f"--------------------------------\n\n⚠️ Un boss est aparu ! ⚠\n\n{monstre.getStats()}\n")
         launchRoom()
                   
 def askTuto():
@@ -169,4 +203,3 @@ def askTuto():
         askTuto()
 
 askTuto()
-
