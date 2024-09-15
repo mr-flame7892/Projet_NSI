@@ -78,6 +78,11 @@ class monstres:
         self.currentDef = 4
         self.currentSpeed = 25
         self.currentDMG = 4
+        self.boss = False
+        chanceBoss = random.randint(1,100)
+        
+        if (chanceBoss <= 20) and (character.room > 1):
+            self.boss = True
         
     def getStats(self):
         return f"Le monstre à :\n\n- {self.currentPV} PV ({self.pv} de base)\n- {self.currentDef} DEF ({self.defence} de base)\n- {self.currentSpeed} SPEED ({self.speed} de base)\n- {self.currentDMG} DMG ({self.attack} de base)"
