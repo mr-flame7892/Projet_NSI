@@ -127,6 +127,17 @@ class tour():
         
 rounds = tour()
 
+def reAsk():
+    restart = input("--------------------------------\n\nSouhaitez-vous continuer ? (y/n)")
+    if restart == "y":
+        character.room = character.room + 1
+        return launchRoom()
+    elif restart == "n":
+        game = False
+        exit()
+        return
+    else:
+        reAsk()
 def characterAttacks():
     rounds.TypeTurn = "👤"
     rounds.length = rounds.length + 1
@@ -135,21 +146,24 @@ def characterAttacks():
     monstre.currentPV = round(monstre.currentPV - DMG, 0)
     if monstre.currentPV <= 0:
         print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\nLe monstre s'est pris {DMG} DMG\nIl se désintégre sous vous yeux !")
-        print(f"--------------------------------\n\nVous avez triomphé du mal, cependant il vous reste du chemin à parcourir...\n")
-        restart = input("--------------------------------\n\nSouhaitez-vous recommencer ? (y/n)")
-        if restart == "y":
-            character.room = character.room + 1
-            monstre.resetMonstre()
-            return launchRoom()
-        elif restart == "n":
-            game = False
-            exit()
-            return
+        print(f"\n--------------------------------\n\nVous avez triomphé du mal, cependant il vous reste du chemin à parcourir...\n")
+        reAsk()
     else:
         print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\nLe monstre s'est pris {DMG} DMG\nIl lui reste {monstre.currentPV} PV !")
         input("\n--------------------------------\n\nAppuyez sur Entrée pour continuer le combat")
         monstreAttacks()
-            
+
+def reAskGameOver():
+    restart = input("--------------------------------\n\nSouhaitez-vous recommencer ? (y/n)")
+    if restart == "y":
+        return launchGame()
+    elif restart == "n":
+        game = False
+        exit()
+        return
+    else:
+        reAskGameOver()
+
 def monstreAttacks():
     rounds.TypeTurn = "💀"
     rounds.length = rounds.length + 1
@@ -158,14 +172,8 @@ def monstreAttacks():
     character.currentPV = round(character.currentPV - DMG, 0)
     if character.currentPV <= 0:
         print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\nVous vous êtes pris {DMG} DMG\nIl vous n'êtes plus en état de vous battre !")
-        print(f"--------------------------------\n\nLe mal a eu raison de vous...\nIl ne lui restait plus que {monstre.pv} PV\n")
-        restart = input("--------------------------------\n\nSouhaitez-vous recommencer ? (y/n)")
-        if restart == "y":
-            return launchGame()
-        elif restart == "n":
-            game = False
-            exit()
-            return
+        print(f"--------------------------------\n\nLe mal a eu raison de vous...\nIl ne lui restait plus que {monstre.currentPV} PV\n")
+        reAskGameOver()
     else:
         print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\nVous vous êtes pris {DMG} DMG\nIl vous reste {character.currentPV} PV !")
         input("\n--------------------------------\n\nAppuyez sur Entrée pour continuer le combat")
@@ -173,6 +181,8 @@ def monstreAttacks():
 
 def launchRoom():
     rounds.length = 0
+    if character.room != 1:
+        monstre.resetMonstre()
     if monstre.boss == True:
             i = 0
             while i <= 1:
