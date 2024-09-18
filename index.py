@@ -102,12 +102,11 @@ monstre = monstres()
 
 
 def shop():
-    vente=[item[random.randint(0,len(item)-1)],item[random.randint(0,len(item)-1)],item[random.randint(0,len(item)-1)]]
+   vente=[item[random.randint(0,len(item)-1)],item[random.randint(0,len(item)-1)],item[random.randint(0,len(item)-1)]]
     choix=input(f"\ntu veux quoi : \n\n1 = {vente[0]['name']}, {vente[0]['type']} ({vente[0]['stat']}) prix : {vente[0]['prix']} ;\n2 = {vente[1]['name']}, {vente[1]['type']} ({vente[1]['stat']}) prix : {vente[1]['prix']} ;\n3 = {vente[2]['name']}, {vente[2]['type']} ({vente[2]['stat']}) prix : {vente[2]['prix']} ;")
     if choix=='1':
         if character.gold>=vente[0]['prix']:
             print('t"as la thune pd')
-
 class tour:
     def __init__(self):
         self.length = 0
@@ -230,7 +229,7 @@ def reAsk():
         
 
 def launchRoom():
-    if character.room % 2 == 0:
+    if character.room % 5 == 0:
         shop()
         character.room = character.room + 1
     else:
