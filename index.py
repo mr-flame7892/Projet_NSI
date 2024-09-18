@@ -2,7 +2,7 @@ import random
 import time
 
 game = True
-
+item=[{'name':'baton', 'stat' : 5, 'prix' : 100, 'type' : 'weapon'}, {'name':'coeuracier', 'stat' : 15, 'prix' : 500, 'type': 'armor'}, {'name':'botte symbiotique', 'stat' : 10, 'prix': 400, 'type' : 'boots'}
 class character:
     def __init__(self):
         self.startPV = 100
@@ -128,6 +128,13 @@ class chestsSystem:
         
 chest = chestsSystem()"""
 
+def shop():
+    vente=[item[random.randint(0,len(item)-1)],item[random.randint(0,len(item)-1)],item[random.randint(0,len(item)-1)]]
+    choix=input(f"tu veux quoi : 1={vente[0]['name']}(vente[0]['']) ; 2={vente[1]} ; 3={vente[2]}")
+    if choix=='1':
+        print(choix)
+        if character.gold>=vente[0]['prix']:
+            print('t"as la thune pd')
 
 class tour:
     def __init__(self):
@@ -252,30 +259,33 @@ def reAsk():
         
 
 def launchRoom():
-    print(f"\n--------------------------------\n\nUn/e {monstre.type} apparaît ")
-    rounds.length = 0
-    if character.room != 1:
-        monstre.resetMonstre()
-    if monstre.boss == True:
-            i = 0
-            while i <= 1:
-                stat = random.randint(0, 3)
-                if stat == 0:
-                    monstre.currentPV = round((monstre.currentPV * 0.5) + monstre.currentPV, 0)
-                elif stat == 1:
-                    monstre.currentDMG = round((monstre.currentDMG * 0.5) + monstre.currentDMG, 0)
-                elif stat == 2:
-                    monstre.currentDef = round((monstre.currentDef * 0.5) + monstre.currentDef, 0)
-                else:
-                    monstre.currentSpeed = round((monstre.currentSpeed * 0.5) + monstre.currentSpeed, 0)
-                i = i + 1
-            print(f"\n--------------------------------\n\n⚠️ Un boss est aparu ! ⚠\n\n")
-            monstre.getStats()
-    while monstre.currentPV >= 0 and character.currentPV >= 0:
-        if monstre.currentSpeed < character.currentSpeed:
-            askPlayer()
-        else:
-            monstreAttacks()
+    if character.room % 5 == 0:
+        shop()
+        character.room = character.room + 1
+    else:
+        print(f"\n--------------------------------\n\nUn/e {monstre.type} apparaît ")
+        rounds.length = 0
+        if character.room != 1:
+            monstre.resetMonstre()
+        if monstre.boss == True:
+                i = 0
+                while i <= 1:
+                    stat = random.randint(0, 3)
+                    if stat == 0:
+                        monstre.currentPV = round((monstre.currentPV * 0.5) + monstre.currentPV, 0)
+                    elif stat == 1:
+                        monstre.currentDMG = round((monstre.currentDMG * 0.5) + monstre.currentDMG, 0)
+                    elif stat == 2:
+                        monstre.currentDef = round((monstre.currentDef * 0.5) + monstre.currentDef, 0)
+                    else:
+                        monstre.currentSpeed = round((monstre.currentSpeed * 0.5) + monstre.currentSpeed, 0)
+                    i = i + 1
+                print(f"--------------------------------\n\n⚠️ Un boss est aparu ! ⚠️\n\n{monstre.getStats()}\n")
+        while monstre.currentPV >= 0 and character.currentPV >= 0:
+            if monstre.currentSpeed < character.currentSpeed:
+                askPlayer()
+            else:
+                monstreAttacks()
 
 def launchGame():
     rounds.length = 0
