@@ -181,7 +181,7 @@ randomDMG = None
 def characterAttacks():
     rounds.TypeTurn = "👤"
     rounds.length = rounds.length + 1
-    randomDMG = random.randint(1, 10)
+    randomDMG = random.randint(1, 25)
     DMG = round(randomDMG + character.currentDMG - monstre.currentDef/100, 0)
     monstre.currentPV = round(monstre.currentPV - DMG, 0)
     if monstre.currentPV <= 0:
@@ -215,7 +215,7 @@ def characterAttacks():
 def monstreAttacks():
     rounds.TypeTurn = "💀"
     rounds.length = rounds.length + 1
-    randomDMG = random.randint(1, 10)
+    randomDMG = random.randint(1, 25)
     DMG = round(randomDMG + monstre.currentDMG - character.currentDef, 0)
     character.currentPV = round(character.currentPV - DMG, 0)
     if character.currentPV <= 0:
@@ -298,3 +298,4 @@ def askTuto():
         askTuto()
 
 askTuto()
+
