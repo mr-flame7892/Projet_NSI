@@ -15,10 +15,11 @@ class character:
         self.boots = { "name": "Bottes en Cuir", "speed": 10/100 }
         self.weapon = { "name": "Branche d'Arbre", "dmg": 5/100 }
         self.exp = 0
-        self.limitExp = 1
+        self.limitExp = 50
         self.lvl = 1
         self.chests = 0
         self.room = 1
+        self.gold = 0
         self.currentPV = self.startPV
         self.currentDef = round(self.startDef + self.startDef * self.armor["def"], 0)
         self.currentSpeed = round(self.startSpeed + self.startSpeed * self.boots["speed"], 0)
@@ -45,10 +46,11 @@ class character:
         self.boots = { "name": "Bottes en Cuir", "speed": 10/100 }
         self.weapon = { "name": "Branche d'Arbre", "dmg": 5/100 }
         self.exp = 0
-        self.limitExp = 1
+        self.limitExp = 50
         self.lvl = 1
         self.chests = 0
         self.room = 1
+        self.gold = 0
         self.calculateStats()
             
 
@@ -58,6 +60,8 @@ listeMonstre=["Zombie","Squellette","Brigand","Araignée","la daronne d'enzo","L
 
 class monstres:
     def __init__(self):
+        self.type=listeMonstre[random.randint(0,len(listeMonstre)-1)]
+        self.lvl = 1
         self.pv = 95
         self.attack = 4
         self.defence = 4
@@ -75,6 +79,7 @@ class monstres:
             
     def resetMonstre(self):
         self.type=listeMonstre[random.randint(0,len(listeMonstre)-1)]
+        self.lvl = 1
         self.pv = 95
         self.attack = 4
         self.defence = 4
@@ -124,7 +129,7 @@ class chestsSystem:
 chest = chestsSystem()"""
 
 
-class tour():
+class tour:
     def __init__(self):
         self.length = 0
         self.TypeTurn = None
@@ -180,7 +185,16 @@ def characterAttacks():
     DMG = round((randomDMG * character.currentDMG) - ((randomDMG * character.currentDMG) * monstre.currentDef/100), 0)
     monstre.currentPV = round(monstre.currentPV - DMG, 0)
     if monstre.currentPV <= 0:
-        print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\n{monstre.type} s'est pris {DMG} DMG\nIl se désintégre sous vous yeux !")
+        nbrPO = random.randint(100, 300)
+        nbrEXP = random.randint(50, 75)
+        print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\n{monstre.type} s'est pris {DMG} DMG\nIl se désintégre sous vous yeux ! (Vous avez reçu {nbrPO} PO et {nbrEXP} points d'exp)")
+        character.gold = character.gold + random.randint(100, 300)
+        character.exp = character.exp + nbrEXP
+        if character.exp >= character.limitExp:
+            character.lvl = character.lvl + 1
+            character.exp = character.exp - character.limitExp
+            character.limitExp = character.limitExp + 50
+            print(f"\n--------------------------------\n\nFélicitations, vous êtes monté au niveau {character.lvl} ({character.exp} / {character.limitExp})\n")
         print(f"\n--------------------------------\n\nVous avez triomphé du mal, cependant il vous reste du chemin à parcourir...\n")
         reAsk()
     else:
