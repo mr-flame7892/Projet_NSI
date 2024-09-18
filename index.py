@@ -1,4 +1,5 @@
 import random
+import time
 
 game = True
 
@@ -73,6 +74,7 @@ class monstres:
             self.boss = True
             
     def resetMonstre(self):
+        self.type=listeMonstre[random.randint(0,len(listeMonstre)-1)]
         self.pv = 95
         self.attack = 4
         self.defence = 4
@@ -93,7 +95,7 @@ class monstres:
 
 monstre = monstres()
 
-def rarityPicker():
+"""def rarityPicker():
     chance = random.randint(1, 100)
     if 35 <= chance <= 100:
         return "commun"
@@ -119,10 +121,8 @@ class chestsSystem:
         self.currentRarity = rarityPicker()
         return
         
-chest = chestsSystem()
+chest = chestsSystem()"""
 
-DMG = None
-randomDMG = None
 
 class tour():
     def __init__(self):
@@ -130,44 +130,7 @@ class tour():
         self.TypeTurn = None
         
 rounds = tour()
-
-def reAsk():
-    restart = input("--------------------------------\n\nSouhaitez-vous continuer ? (y/n)")
-    if restart == "y":
-        character.room = character.room + 1
-        return launchRoom()
-    elif restart == "n":
-        game = False
-        exit()
-        return
-    else:
-        reAsk()
-def characterAttacks():
-    rounds.TypeTurn = "👤"
-    rounds.length = rounds.length + 1
-    randomDMG = random.randint(1, 10)
-    DMG = round((randomDMG * character.currentDMG) - ((randomDMG * character.currentDMG) * monstre.currentDef/100), 0)
-    monstre.currentPV = round(monstre.currentPV - DMG, 0)
-    if monstre.currentPV <= 0:
-        print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\nLe monstre s'est pris {DMG} DMG\nIl se désintégre sous vous yeux !")
-        print(f"\n--------------------------------\n\nVous avez triomphé du mal, cependant il vous reste du chemin à parcourir...\n")
-        reAsk()
-    else:
-        print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\nLa daronne d'enzo s'est pris {DMG} DMG\nIl lui reste {monstre.currentPV} PV !")
-        input("\n--------------------------------\n\nAppuyez sur Entrée pour continuer le combat")
-        monstreAttacks()
-
-def reAskGameOver():
-    restart = input("--------------------------------\n\nSouhaitez-vous recommencer ? (y/n)")
-    if restart == "y":
-        return launchGame()
-    elif restart == "n":
-        game = False
-        exit()
-        return
-    else:
-        reAskGameOver()
-    
+        
 def askPlayer():
     question = input("\n--------------------------------\n\nQuelle action voulez-vous réaliser ? (inventory/attaque/potion/monstre/stats)")
     
@@ -206,7 +169,25 @@ def askPlayer():
             return askPlayer()
     else:
         return askPlayer()
-    
+        
+DMG = None
+randomDMG = None
+
+def characterAttacks():
+    rounds.TypeTurn = "👤"
+    rounds.length = rounds.length + 1
+    randomDMG = random.randint(1, 10)
+    DMG = round((randomDMG * character.currentDMG) - ((randomDMG * character.currentDMG) * monstre.currentDef/100), 0)
+    monstre.currentPV = round(monstre.currentPV - DMG, 0)
+    if monstre.currentPV <= 0:
+        print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\nLe monstre s'est pris {DMG} DMG\nIl se désintégre sous vous yeux !")
+        print(f"\n--------------------------------\n\nVous avez triomphé du mal, cependant il vous reste du chemin à parcourir...\n")
+        reAsk()
+    else:
+        print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\n{monstre.type}s'est pris {DMG} DMG\nIl lui reste {monstre.currentPV} PV !")
+        time.sleep(2)
+        monstreAttacks()
+
 
 def monstreAttacks():
     rounds.TypeTurn = "💀"
@@ -222,14 +203,40 @@ def monstreAttacks():
         print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\nVous vous êtes pris {DMG} DMG\nIl vous reste {character.currentPV} PV !")
         askPlayer()
 
+
+def reAskGameOver():
+    restart = input("--------------------------------\n\nSouhaitez-vous recommencer ? (y/n)")
+    if restart == "y":
+        return launchGame()
+    elif restart == "n":
+        game = False
+        exit()
+        return
+    else:
+        reAskGameOver()
+        
+def reAsk():
+    restart = input("--------------------------------\n\nSouhaitez-vous continuer ? (y/n)")
+    if restart == "y":
+        character.room = character.room + 1
+        return launchRoom()
+    elif restart == "n":
+        game = False
+        exit()
+        return
+    else:
+        reAsk()
+        
+
 def launchRoom():
+    print(f"Un/e {monstre.type} apparaît ")
     rounds.length = 0
     if character.room != 1:
         monstre.resetMonstre()
     if monstre.boss == True:
             i = 0
             while i <= 1:
-                stat = random.randint(0, 4)
+                stat = random.randint(0, 3)
                 if stat == 0:
                     monstre.currentPV = round((monstre.currentPV * 0.5) + monstre.currentPV, 0)
                 elif stat == 1:
@@ -250,6 +257,7 @@ def launchGame():
     rounds.length = 0
     monstre.resetMonstre()
     character.resetCharacter()
+    print("-----------------------\n \nVous vous réveillez sans aucun souvenir de la veille dans un recoin sombre d'une pièce froide et lugubre. \nUne grande porte en bois face a vous, vous l'ouvrez et......... ")
     while game == True:
         launchRoom()
                   
@@ -264,5 +272,7 @@ def askTuto():
         launchGame()
     else:
         askTuto()
+
+askTuto()
 
 askTuto()
