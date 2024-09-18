@@ -202,7 +202,6 @@ def characterAttacks():
             character.startDef = character.startDef + 2
             character.startSpeed = character.startSpeed + 2
             character.calculateStats()
-            print(character.currentPV)
             print(f"--------------------------------\n\n🎉 Félicitations !\nVous êtes monté au niveau supérieur ! ({character.lvl - 1} -> {character.lvl} ({character.exp} exp / {character.limitExp} exp)\nVos stats ont été mises à jour !\n")
         print(f"--------------------------------\n\nVous avez triomphé du mal, cependant il vous reste du chemin à parcourir...\n")
         reAsk()
