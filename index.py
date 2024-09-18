@@ -222,7 +222,7 @@ def characterAttacks():
         if monstre.boss == True:
             nbrPO = nbrPO * 2
             nbrEXP = nbrEXP * 2
-        print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\n{monstre.type} s'est pris {DMG} DMG\nIl se désintégre sous vous yeux ! (Vous avez reçu {nbrPO} PO et {nbrEXP} points d'exp)\n")
+        print(f"\n--------------------------------\n\n\033[94m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\033[0m\n{monstre.type} s'est pris \033[91m{DMG}\033[0m DMG\nIl se désintégre sous vous yeux ! (Vous avez reçu {nbrPO} PO et {nbrEXP} points d'exp)\n")
         character.gold = character.gold + random.randint(100, 300)
         character.exp = character.exp + nbrEXP
         if character.exp >= character.limitExp:
@@ -238,7 +238,7 @@ def characterAttacks():
         print(f"--------------------------------\n\nVous avez triomphé du mal, cependant il vous reste du chemin à parcourir...\n")
         reAsk()
     else:
-        print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\nLe/La/L' {monstre.type} s'est pris {DMG} DMG\nIl lui reste {monstre.currentPV} PV !")
+        print(f"\n--------------------------------\n\n\033[94m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\033[0m\nLe/La/L' {monstre.type} s'est pris \033[91m{DMG}\033[0m DMG\nIl lui reste \033[92m{monstre.currentPV}\033[0m PV !")
         time.sleep(1)
         monstreAttacks()
 
@@ -250,11 +250,11 @@ def monstreAttacks():
     DMG = round(randomDMG + monstre.currentDMG - character.currentDef, 0)
     character.currentPV = round(character.currentPV - DMG, 0)
     if character.currentPV <= 0:
-        print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\nVous vous êtes pris {DMG} DMG\nIl vous n'êtes plus en état de vous battre !")
+        print(f"\n--------------------------------\n\n\033[91m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :'\033[0m\nVous vous êtes pris \033[91m{DMG}\033[0m DMG\nIl vous n'êtes plus en état de vous battre !")
         print(f"--------------------------------\n\nLe mal a eu raison de vous...\nIl ne lui restait plus que {monstre.currentPV} PV\n")
         reAskGameOver()
     else:
-        print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\nVous vous êtes pris {DMG} DMG\nIl vous reste {character.currentPV} PV !")
+        print(f"\n--------------------------------\n\n\033[91m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\033[0m\nVous vous êtes pris \033[91m{DMG}\033[0m DMG\nIl vous reste \033[92m{character.currentPV}\033[0m PV !")
         askPlayer()
 
 
