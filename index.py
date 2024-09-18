@@ -151,7 +151,7 @@ def characterAttacks():
         print(f"\n--------------------------------\n\nVous avez triomphé du mal, cependant il vous reste du chemin à parcourir...\n")
         reAsk()
     else:
-        print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\nLe monstre s'est pris {DMG} DMG\nIl lui reste {monstre.currentPV} PV !")
+        print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\nLa daronne d'enzo s'est pris {DMG} DMG\nIl lui reste {monstre.currentPV} PV !")
         input("\n--------------------------------\n\nAppuyez sur Entrée pour continuer le combat")
         monstreAttacks()
 
