@@ -11,9 +11,9 @@ class character:
         self.startSpeed = 30
         self.startMana = 100
         self.items = { "PotionSoin": 2, "PotionMana": 2}
-        self.armor = { "name": "Tunique en Cuire", "def": 10/100}
-        self.boots = { "name": "Bottes en Cuir", "speed": 10/100 }
-        self.weapon = { "name": "Branche d'Arbre", "dmg": 5/100 }
+        self.armor = { "name": "Tunique en Cuire", "def": 5}
+        self.boots = { "name": "Bottes en Cuir", "speed": 5 }
+        self.weapon = { "name": "Branche d'Arbre", "dmg": 5 }
         self.exp = 0
         self.limitExp = 50
         self.lvl = 1
@@ -21,9 +21,9 @@ class character:
         self.room = 1
         self.gold = 0
         self.currentPV = self.startPV
-        self.currentDef = round(self.startDef + self.startDef * self.armor["def"], 0)
-        self.currentSpeed = round(self.startSpeed + self.startSpeed * self.boots["speed"], 0)
-        self.currentDMG = round(self.startDMG + self.startDMG * self.weapon["dmg"], 0)
+        self.currentDef = self.startDef
+        self.currentSpeed = self.startSpeed
+        self.currentDMG = self.startDMG
         
     def getStats(self):
         print(f"Votre personnage à :\n\n- {self.currentPV} PV ({self.startPV} de base)\n- {self.currentDef} DEF ({self.startDef} de base)\n- {self.currentSpeed} SPEED ({self.startSpeed} de base)\n- {self.currentDMG} DMG ({self.startDMG} de base)\n- {self.startMana} de mana")
@@ -35,16 +35,16 @@ class character:
     
     def calculateStats(self):
         self.currentPV = self.startPV
-        self.currentDef = round(self.startDef + self.startDef * self.armor["def"], 0)
-        self.currentSpeed = round(self.startSpeed + self.startSpeed * self.boots["speed"], 0)
-        self.currentDMG = round(self.startDMG + self.startDMG * self.weapon["dmg"], 0)
+        self.currentDef = self.startDef
+        self.currentSpeed = self.startSpeed
+        self.currentDMG = self.startDMG
         return
     
     def resetCharacter(self):
         self.items = { "PotionSoin": 2, "PotionMana": 2}
-        self.armor = { "name": "Tunique en Cuire", "def": 10/100}
-        self.boots = { "name": "Bottes en Cuir", "speed": 10/100 }
-        self.weapon = { "name": "Branche d'Arbre", "dmg": 5/100 }
+        self.armor = { "name": "Tunique en Cuire", "def": 5}
+        self.boots = { "name": "Bottes en Cuir", "speed": 5 }
+        self.weapon = { "name": "Branche d'Arbre", "dmg": 5 }
         self.exp = 0
         self.limitExp = 50
         self.lvl = 1
@@ -181,8 +181,8 @@ randomDMG = None
 def characterAttacks():
     rounds.TypeTurn = "👤"
     rounds.length = rounds.length + 1
-    randomDMG = random.randint(1, 10)
-    DMG = round((randomDMG * character.currentDMG) - ((randomDMG * character.currentDMG) * monstre.currentDef/100), 0)
+    randomDMG = random.randint(1, 25)
+    DMG = round(randomDMG + character.currentDMG - monstre.currentDef/100, 0)
     monstre.currentPV = round(monstre.currentPV - DMG, 0)
     if monstre.currentPV <= 0:
         nbrPO = random.randint(100, 300)
@@ -215,8 +215,8 @@ def characterAttacks():
 def monstreAttacks():
     rounds.TypeTurn = "💀"
     rounds.length = rounds.length + 1
-    randomDMG = random.randint(1, 10)
-    DMG = round((randomDMG * monstre.currentDMG) - ((randomDMG * monstre.currentDMG) * character.currentDef/100), 0)
+    randomDMG = random.randint(1, 25)
+    DMG = round(randomDMG + monstre.currentDMG - character.currentDef, 0)
     character.currentPV = round(character.currentPV - DMG, 0)
     if character.currentPV <= 0:
         print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\nVous vous êtes pris {DMG} DMG\nIl vous n'êtes plus en état de vous battre !")
@@ -298,3 +298,4 @@ def askTuto():
         askTuto()
 
 askTuto()
+
