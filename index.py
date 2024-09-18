@@ -53,6 +53,8 @@ class character:
 
 character = character()
 
+listeMonstre=["Zombie","Squellette","Brigand","Araignée","la daronne d'enzo","Loup-Garou","sirene maléfique"]
+
 class monstres:
     def __init__(self):
         self.pv = 95
