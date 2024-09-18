@@ -27,11 +27,11 @@ class character:
         self.currentDMG = self.startDMG + self.weapon["dmg"]
         
     def getStats(self):
-        print(f"Votre personnage à :\n\n- {self.currentPV} PV ({self.startPV} de base)\n- {self.currentDef} DEF ({self.startDef} de base)\n- {self.currentSpeed} SPEED ({self.startSpeed} de base)\n- {self.currentDMG} DMG ({self.startDMG} de base)\n- {self.startMana} de mana")
+        print(f"Votre personnage a :\n\n- {self.currentPV} PV ({self.startPV} de base)\n- {self.currentDef} DEF ({self.startDef} de base)\n- {self.currentSpeed} SPEED ({self.startSpeed} de base)\n- {self.currentDMG} DMG ({self.startDMG} de base)\n- {self.startMana} de mana")
         return
     
     def getInventory(self):
-        print(f"Votre personnage à :\n\n- Armure : {self.armor['name']} (+{self.armor['def']} DEF)\n- Bottes : {self.boots['name']} (+{self.boots['speed']} SPEED)\n- Arme : {self.weapon['name']} (+{self.weapon['dmg']} DMG)\n\nVous avez {self.gold} PO et vous êtes level {self.lvl} ({self.exp} exp / {self.limitExp} exp)")
+        print(f"Votre personnage a :\n\n- Armure : {self.armor['name']} (+{self.armor['def']} DEF)\n- Bottes : {self.boots['name']} (+{self.boots['speed']} SPEED)\n- Arme : {self.weapon['name']} (+{self.weapon['dmg']} DMG)\n\n- Potion(s) de soin : {self.items['PotionSoin']}\n- Potion(s) de mana : {self.items['PotionMana']}\n\nVous avez {self.gold} PO et vous êtes level {self.lvl} ({self.exp} exp / {self.limitExp} exp)")
         return
     
     def calculateStats(self):
@@ -106,7 +106,7 @@ def shop():
     vente=[listItems[random.randint(0,len(listItems)-1)],listItems[random.randint(0,len(listItems)-1)],listItems[random.randint(0,len(listItems)-1)]]
     character.items["PotionSoin"] = character.items["PotionSoin"] + 2
     character.items["PotionMana"] = character.items["PotionMana"] + 2
-    choix = input(f"Vous entrez dans une salle dans laquelle le marchand vous donne par gratitude de vos exploits, il vous donne en récompense 2 potions de soins et de mana.\nIl est prêt à vous vendre uniquement 1 de ses 3 items afin de vous aider dans votre quête :\n\n1) {vente[0]['name']} ({vente[0]['stat']} {vente[0]['type']} prix : {vente[0]['prix']} PO)\n2) {vente[1]['name']} ({vente[1]['stat']} {vente[1]['type']} prix : {vente[1]['prix']} PO)\n3) {vente[2]['name']} ({vente[2]['stat']} {vente[2]['type']} prix : {vente[2]['prix']} PO)\n\nVous possédez {character.gold} PO : ")
+    choix = input(f"\n--------------------------------\n\nVous entrez dans une salle dans laquelle le marchand vous donne par gratitude de vos exploits, il vous donne en récompense 2 potions de soins et de mana.\nIl est prêt à vous vendre uniquement 1 de ses 3 items afin de vous aider dans votre quête :\n\n1) {vente[0]['name']} ({vente[0]['stat']} {vente[0]['type']} prix : {vente[0]['prix']} PO)\n2) {vente[1]['name']} ({vente[1]['stat']} {vente[1]['type']} prix : {vente[1]['prix']} PO)\n3) {vente[2]['name']} ({vente[2]['stat']} {vente[2]['type']} prix : {vente[2]['prix']} PO)\n\nVous possédez {character.gold} PO (écrivez le numéro de l'item que vous souhaitez acheter ou bien écrivez \"pass\" pour passer à la prochaine salle): ")
     if choix == '1':
         item = vente[0]
         if character.gold >= item['prix']:
@@ -152,6 +152,11 @@ def shop():
         else:
             print("\n--------------------------------\n\nVous n'avez pas assez de PO !\n--------------------------------")
             return shop()
+    elif choix == "pass":
+        print(f"\n--------------------------------\n\nVous avez acheté un/e {vente[int(choix) - 1]['name']}, la salle se fait soudainement envahir par les ténèbres puis après quelques secondes, cette dernière revient à la normale cependant, il ne reste plus que vous !")
+        return
+    else:
+        return shop()
     character.calculateStats()
     print(f"\n--------------------------------\n\nVous avez acheté un/e {vente[int(choix) - 1]['name']}, la salle se fait soudainement envahir par les ténèbres puis après quelques secondes, cette dernière revient à la normale cependant, il ne reste plus que vous !")
     return
@@ -181,7 +186,7 @@ def askPlayer():
         character.getStats()
         return askPlayer()
     elif question == "potion":
-        whichPotion = input("\n--------------------------------\n\nQuelle potion voulez-vous utiliser ? (vie/mana)\nPour retourner en arrière, utiliser return : ")
+        whichPotion = input(f"\n--------------------------------\n\nQuelle potion voulez-vous utiliser ? (vie/mana)\nVous possédez {character.items['PotionSoin']} potion(s) de soin et {character.items['PotionMana']} potion(s) de mana\nPour retourner en arrière, utiliser return : ")
         if whichPotion == "vie":
             if character.currentPV == character.startPV:
                 print("\n--------------------------------\n\nVotre vie est déjà pleine !")
@@ -279,10 +284,10 @@ def reAsk():
 
 def launchRoom():
     if character.room % 5 == 0:
-        print("\n--------------------------------\n\nDès lors que vous vous approchez de la prochaine salle, vous entendez l'entité poussé un bruit résonnant dans tout le donjon !\nCela signifie que ses soldats ont gagnés en puissance, prenez garde !\n\n--------------------------------")
-        monstre.pv = round(monstre.pv + monstre.pv * 25/100, 0)
-        monstre.attack = monstre.attack * 2 + 6
-        monstre.speed = round(monstre.speed + monstre.speed * 25/100, 0)
+        print("\n--------------------------------\n\nDès lors que vous vous approchez de la prochaine salle, vous entendez l'entité poussé un bruit résonnant dans tout le donjon !\nCela signifie que ses soldats ont gagnés en puissance, prenez garde !")
+        monstre.pv = round(monstre.pv + monstre.pv * 35/100, 0)
+        monstre.attack = monstre.attack * 2 + 4
+        monstre.speed = round(monstre.speed + monstre.speed * 50/100, 0)
         monstre.defence = monstre.defence * 2 + 4
         monstre.lvl = monstre.lvl + 1
         shop()
