@@ -149,7 +149,7 @@ def askPlayer():
         character.getStats()
         return askPlayer()
     elif question == "potion":
-        whichPotion = input("\n--------------------------------\n\nQuelle potion voulez-vous utiliser ? (vie/mana)\nPour retourner en arrière, utiliser return")
+        whichPotion = input("\n--------------------------------\n\nQuelle potion voulez-vous utiliser ? (vie/mana)\nPour retourner en arrière, utiliser return\n\n")
         if whichPotion == "vie":
             if character.currentPV == character.startPV:
                 print("\n--------------------------------\n\nVotre vie est déjà pleine !")
