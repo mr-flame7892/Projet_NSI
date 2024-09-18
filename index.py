@@ -15,21 +15,22 @@ class character:
         self.boots = { "name": "Bottes en Cuir", "speed": 10/100 }
         self.weapon = { "name": "Branche d'Arbre", "dmg": 5/100 }
         self.exp = 0
-        self.limitExp = 1
+        self.limitExp = 50
         self.lvl = 1
         self.chests = 0
         self.room = 1
+        self.gold = 0
         self.currentPV = self.startPV
         self.currentDef = round(self.startDef + self.startDef * self.armor["def"], 0)
         self.currentSpeed = round(self.startSpeed + self.startSpeed * self.boots["speed"], 0)
         self.currentDMG = round(self.startDMG + self.startDMG * self.weapon["dmg"], 0)
         
     def getStats(self):
-        print(f"Votre personnage à :\n\n- {self.currentPV} PV ({self.startPV} de base)\n- {self.currentDef} DEF ({self.startDef} de base)\n- {self.currentSpeed} SPEED ({self.startSpeed} de base)\n- {self.currentDMG} DMG ({self.startDMG} de base)\n- {self.startMana} de mana (100 de base)")
+        print(f"Votre personnage à :\n\n- {self.currentPV} PV ({self.startPV} de base)\n- {self.currentDef} DEF ({self.startDef} de base)\n- {self.currentSpeed} SPEED ({self.startSpeed} de base)\n- {self.currentDMG} DMG ({self.startDMG} de base)\n- {self.startMana} de mana")
         return
     
     def getInventory(self):
-        print(f"Votre personnage à :\n\n- Armure : {self.armor['name']}\n- Bottes : {self.boots['name']}\n- Arme : {self.weapon['name']}")
+        print(f"Votre personnage à :\n\n- Armure : {self.armor['name']}\n- Bottes : {self.boots['name']}\n- Arme : {self.weapon['name']}\n\nVous avez {self.gold} PO et vous êtes level {self.lvl} ({self.exp} exp / {self.limitExp} exp)")
         return
     
     def calculateStats(self):
@@ -45,22 +46,25 @@ class character:
         self.boots = { "name": "Bottes en Cuir", "speed": 10/100 }
         self.weapon = { "name": "Branche d'Arbre", "dmg": 5/100 }
         self.exp = 0
-        self.limitExp = 1
+        self.limitExp = 50
         self.lvl = 1
         self.chests = 0
         self.room = 1
+        self.gold = 0
         self.calculateStats()
             
 
 character = character()
 
-listeMonstre=["Zombie","Squellette","Brigand","Araignée","la daronne d'enzo","Loup-Garou","sirene maléfique"]
+listeMonstre=["Zombie","Squellette","Brigand","Araignée","Daronne d'Enzo","Loup-Garou","Sirène maléfique"]
 
 class monstres:
     def __init__(self):
+        self.type=listeMonstre[random.randint(0,len(listeMonstre)-1)]
+        self.lvl = 1
         self.pv = 95
-        self.attack = 4
-        self.defence = 4
+        self.attack = 2
+        self.defence = 6
         self.speed = 25
         self.boss = False
         self.currentPV = self.pv
@@ -75,9 +79,10 @@ class monstres:
             
     def resetMonstre(self):
         self.type=listeMonstre[random.randint(0,len(listeMonstre)-1)]
+        self.lvl = 1
         self.pv = 95
-        self.attack = 4
-        self.defence = 4
+        self.attack = 2
+        self.defence = 6
         self.speed = 25
         self.currentPV = 95
         self.currentDef = 4
@@ -86,7 +91,7 @@ class monstres:
         self.boss = False
         chanceBoss = random.randint(1,100)
         
-        if (chanceBoss <= 20) and (character.room > 1):
+        if (chanceBoss <= 100) and (character.room > 1):
             self.boss = True
         
     def getStats(self):
@@ -124,7 +129,7 @@ class chestsSystem:
 chest = chestsSystem()"""
 
 
-class tour():
+class tour:
     def __init__(self):
         self.length = 0
         self.TypeTurn = None
@@ -180,11 +185,29 @@ def characterAttacks():
     DMG = round((randomDMG * character.currentDMG) - ((randomDMG * character.currentDMG) * monstre.currentDef/100), 0)
     monstre.currentPV = round(monstre.currentPV - DMG, 0)
     if monstre.currentPV <= 0:
-        print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\n{monstre.type} s'est pris {DMG} DMG\nIl se désintégre sous vous yeux !")
-        print(f"\n--------------------------------\n\nVous avez triomphé du mal, cependant il vous reste du chemin à parcourir...\n")
+        nbrPO = random.randint(100, 300)
+        nbrEXP = random.randint(50, 75)
+        if monstre.boss == True:
+            nbrPO = nbrPO * 2
+            nbrEXP = nbrEXP * 2
+        print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\n{monstre.type} s'est pris {DMG} DMG\nIl se désintégre sous vous yeux ! (Vous avez reçu {nbrPO} PO et {nbrEXP} points d'exp)\n")
+        character.gold = character.gold + random.randint(100, 300)
+        character.exp = character.exp + nbrEXP
+        if character.exp >= character.limitExp:
+            character.lvl = character.lvl + 1
+            character.exp = character.exp - character.limitExp
+            character.limitExp = character.limitExp + 50
+            character.startPV = character.startPV + 10
+            character.startDMG = character.startDMG + 2
+            character.startDef = character.startDef + 2
+            character.startSpeed = character.startSpeed + 2
+            character.calculateStats()
+            print(character.currentPV)
+            print(f"--------------------------------\n\n🎉 Félicitations !\nVous êtes monté au niveau supérieur ! ({character.lvl - 1} -> {character.lvl} ({character.exp} exp / {character.limitExp} exp)\nVos stats ont été mises à jour !\n")
+        print(f"--------------------------------\n\nVous avez triomphé du mal, cependant il vous reste du chemin à parcourir...\n")
         reAsk()
     else:
-        print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\n{monstre.type}s'est pris {DMG} DMG\nIl lui reste {monstre.currentPV} PV !")
+        print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\nLe/La/L' {monstre.type} s'est pris {DMG} DMG\nIl lui reste {monstre.currentPV} PV !")
         time.sleep(2)
         monstreAttacks()
 
@@ -246,7 +269,8 @@ def launchRoom():
                 else:
                     monstre.currentSpeed = round((monstre.currentSpeed * 0.5) + monstre.currentSpeed, 0)
                 i = i + 1
-            print(f"--------------------------------\n\n⚠️ Un boss est aparu ! ⚠️\n\n{monstre.getStats()}\n")
+            print(f"\n--------------------------------\n\n⚠️ Un boss est aparu ! ⚠\n\n")
+            monstre.getStats()
     while monstre.currentPV >= 0 and character.currentPV >= 0:
         if monstre.currentSpeed < character.currentSpeed:
             askPlayer()
