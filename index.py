@@ -104,9 +104,8 @@ monstre = monstres()
 
 def shop():
     vente=[item[random.randint(0,len(item)-1)],item[random.randint(0,len(item)-1)],item[random.randint(0,len(item)-1)]]
-    choix=input(f"Vous entrez dans une salle dans laquelle le marchand vous  1) {vente[0]['name']}(vente[0]['']) ; 2)={vente[1]} ; 3={vente[2]}")
+    choix=input(f"\ntu veux quoi : \n\n1 = {vente[0]['name']}, {vente[0]['type']} ({vente[0]['stat']}) prix : {vente[0]['prix']} ;\n2 = {vente[1]['name']}, {vente[1]['type']} ({vente[1]['stat']}) prix : {vente[1]['prix']} ;\n3 = {vente[2]['name']}, {vente[2]['type']} ({vente[2]['stat']}) prix : {vente[2]['prix']} ;")
     if choix=='1':
-        print(choix)
         if character.gold>=vente[0]['prix']:
             print('t"as la thune pd')
 
