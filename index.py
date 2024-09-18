@@ -274,5 +274,3 @@ def askTuto():
         askTuto()
 
 askTuto()
-
-askTuto()
