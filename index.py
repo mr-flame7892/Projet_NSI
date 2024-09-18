@@ -3,6 +3,7 @@ import time
 
 game = True
 item=[{'name':'baton', 'stat' : 5, 'prix' : 100, 'type' : 'weapon'}, {'name':'coeuracier', 'stat' : 15, 'prix' : 500, 'type': 'armor'}, {'name':'botte symbiotique', 'stat' : 10, 'prix': 400, 'type' : 'boots'}]
+
 class character:
     def __init__(self):
         self.startPV = 100
@@ -21,9 +22,9 @@ class character:
         self.room = 1
         self.gold = 0
         self.currentPV = self.startPV
-        self.currentDef = self.startDef
-        self.currentSpeed = self.startSpeed
-        self.currentDMG = self.startDMG
+        self.currentDef = self.startDef + self.armor["def"]
+        self.currentSpeed = self.startSpeed + self.boots["speed"]
+        self.currentDMG = self.startDMG + self.weapon["dmg"]
         
     def getStats(self):
         print(f"Votre personnage à :\n\n- {self.currentPV} PV ({self.startPV} de base)\n- {self.currentDef} DEF ({self.startDef} de base)\n- {self.currentSpeed} SPEED ({self.startSpeed} de base)\n- {self.currentDMG} DMG ({self.startDMG} de base)\n- {self.startMana} de mana")
@@ -35,9 +36,9 @@ class character:
     
     def calculateStats(self):
         self.currentPV = self.startPV
-        self.currentDef = self.startDef
-        self.currentSpeed = self.startSpeed
-        self.currentDMG = self.startDMG
+        self.currentDef = self.startDef + self.armor["def"]
+        self.currentSpeed = self.startSpeed + self.boots["speed"]
+        self.currentDMG = self.startDMG + self.weapon["dmg"]
         return
     
     def resetCharacter(self):
@@ -79,15 +80,15 @@ class monstres:
             
     def resetMonstre(self):
         self.type=listeMonstre[random.randint(0,len(listeMonstre)-1)]
-        self.lvl = 1
-        self.pv = 95
-        self.attack = 2
-        self.defence = 6
-        self.speed = 25
-        self.currentPV = 95
-        self.currentDef = 6
-        self.currentSpeed = 25
-        self.currentDMG = 2
+        self.lvl = self.lvl
+        self.pv = self.pv
+        self.attack = self.attack
+        self.defence = self.defence
+        self.speed = self.speed
+        self.currentPV = self.pv
+        self.currentDef = self.defence
+        self.currentSpeed = self.speed
+        self.currentDMG = self.attack
         self.boss = False
         chanceBoss = random.randint(1,100)
         
@@ -103,7 +104,7 @@ monstre = monstres()
 
 def shop():
     vente=[item[random.randint(0,len(item)-1)],item[random.randint(0,len(item)-1)],item[random.randint(0,len(item)-1)]]
-    choix=input(f"tu veux quoi : 1={vente[0]['name']}(vente[0]['']) ; 2={vente[1]} ; 3={vente[2]}")
+    choix=input(f"Vous entrez dans une salle dans laquelle le marchand vous  1) {vente[0]['name']}(vente[0]['']) ; 2)={vente[1]} ; 3={vente[2]}")
     if choix=='1':
         print(choix)
         if character.gold>=vente[0]['prix']:
@@ -161,7 +162,7 @@ randomDMG = None
 def characterAttacks():
     rounds.TypeTurn = "👤"
     rounds.length = rounds.length + 1
-    randomDMG = random.randint(1, 25)
+    randomDMG = random.randint(5, 30)
     DMG = round(randomDMG + character.currentDMG - monstre.currentDef, 0)
     monstre.currentPV = round(monstre.currentPV - DMG, 0)
     if monstre.currentPV <= 0:
@@ -187,14 +188,14 @@ def characterAttacks():
         reAsk()
     else:
         print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\nLe/La/L' {monstre.type} s'est pris {DMG} DMG\nIl lui reste {monstre.currentPV} PV !")
-        time.sleep(2)
+        time.sleep(1)
         monstreAttacks()
 
 
 def monstreAttacks():
     rounds.TypeTurn = "💀"
     rounds.length = rounds.length + 1
-    randomDMG = random.randint(1, 25)
+    randomDMG = random.randint(5, 30)
     DMG = round(randomDMG + monstre.currentDMG - character.currentDef, 0)
     character.currentPV = round(character.currentPV - DMG, 0)
     if character.currentPV <= 0:
@@ -232,10 +233,16 @@ def reAsk():
 
 def launchRoom():
     if character.room % 5 == 0:
+        print("\n--------------------------------\n\nDès lors que vous vous approchez de la prochaine salle, vous entendez l'entité poussé un bruit résonnant dans tout le donjon !\nCela signifie que ses soldats ont gagnés en puissance, prenez garde !\n\n--------------------------------")
+        monstre.pv = round(monstre.pv + monstre.pv * 25/100, 0)
+        monstre.attack = monstre.attack * 2 + 6
+        monstre.speed = round(monstre.speed + monstre.speed * 25/100, 0)
+        monstre.defence = monstre.defence * 2 + 4
+        monstre.lvl = monstre.lvl + 1
         shop()
         character.room = character.room + 1
     else:
-        print(f"\n--------------------------------\n\nUn/e {monstre.type} apparaît ")
+        print(f"\n--------------------------------\n\nVous vous approchez d'une porte en bois avec le chiffre \"{character.room}\" insrit dessus, vous l'ouvrez et...\nUn/e {monstre.type} apparaît !")
         rounds.length = 0
         if character.room != 1:
             monstre.resetMonstre()
@@ -252,9 +259,8 @@ def launchRoom():
                     else:
                         monstre.currentSpeed = round((monstre.currentSpeed * 0.5) + monstre.currentSpeed, 0)
                     i = i + 1
-                print(f"--------------------------------\n\n⚠️ Un boss est aparu ! ⚠️\n\n")
+                print(f"--------------------------------\n\n⚠️ Un boss est aparu ! ⚠️\n")
                 monstre.getStats()
-                print("\n")
         while monstre.currentPV >= 0 and character.currentPV >= 0:
             if monstre.currentSpeed < character.currentSpeed:
                 askPlayer()
@@ -265,7 +271,7 @@ def launchGame():
     rounds.length = 0
     monstre.resetMonstre()
     character.resetCharacter()
-    print("-----------------------\n \nVous vous réveillez sans aucun souvenir de la veille dans un recoin sombre d'une pièce froide et lugubre. \nUne grande porte en bois face a vous, vous l'ouvrez et......... ")
+    print("-----------------------\n \nVous vous réveillez sans aucun souvenir de la veille dans un recoin sombre d'une pièce froide et lugubre.")
     while game == True:
         launchRoom()
                   
