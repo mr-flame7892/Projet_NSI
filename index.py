@@ -2,7 +2,7 @@ import random
 import time
 
 game = True
-item=[{'name':'baton', 'stat' : 5, 'prix' : 100, 'type' : 'weapon'}, {'name':'coeuracier', 'stat' : 15, 'prix' : 500, 'type': 'armor'}, {'name':'botte symbiotique', 'stat' : 10, 'prix': 400, 'type' : 'boots'}
+item=[{'name':'baton', 'stat' : 5, 'prix' : 100, 'type' : 'weapon'}, {'name':'coeuracier', 'stat' : 15, 'prix' : 500, 'type': 'armor'}, {'name':'botte symbiotique', 'stat' : 10, 'prix': 400, 'type' : 'boots'}]
 class character:
     def __init__(self):
         self.startPV = 100
@@ -91,7 +91,7 @@ class monstres:
         self.boss = False
         chanceBoss = random.randint(1,100)
         
-        if (chanceBoss <= 20) and (character.room > 1):
+        if (chanceBoss <= 100) and (character.room > 1):
             self.boss = True
         
     def getStats(self):
@@ -103,9 +103,8 @@ monstre = monstres()
 
 def shop():
     vente=[item[random.randint(0,len(item)-1)],item[random.randint(0,len(item)-1)],item[random.randint(0,len(item)-1)]]
-    choix=input(f"tu veux quoi : 1={vente[0]['name']}(vente[0]['']) ; 2={vente[1]} ; 3={vente[2]}")
+    choix=input(f"\ntu veux quoi : \n\n1 = {vente[0]['name']}, {vente[0]['type']} ({vente[0]['stat']}) prix : {vente[0]['prix']} ;\n2 = {vente[1]['name']}, {vente[1]['type']} ({vente[1]['stat']}) prix : {vente[1]['prix']} ;\n3 = {vente[2]['name']}, {vente[2]['type']} ({vente[2]['stat']}) prix : {vente[2]['prix']} ;")
     if choix=='1':
-        print(choix)
         if character.gold>=vente[0]['prix']:
             print('t"as la thune pd')
 
@@ -231,7 +230,7 @@ def reAsk():
         
 
 def launchRoom():
-    if character.room % 5 == 0:
+    if character.room % 2 == 0:
         shop()
         character.room = character.room + 1
     else:
@@ -252,7 +251,8 @@ def launchRoom():
                     else:
                         monstre.currentSpeed = round((monstre.currentSpeed * 0.5) + monstre.currentSpeed, 0)
                     i = i + 1
-                print(f"--------------------------------\n\n⚠️ Un boss est aparu ! ⚠️\n\n{monstre.getStats()}\n")
+                print(f"--------------------------------\n\n⚠️ Un boss est aparu ! ⚠️\n\n")
+                monstre.getStats()
         while monstre.currentPV >= 0 and character.currentPV >= 0:
             if monstre.currentSpeed < character.currentSpeed:
                 askPlayer()
@@ -280,4 +280,3 @@ def askTuto():
         askTuto()
 
 askTuto()
-
