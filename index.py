@@ -2,7 +2,7 @@ import random
 import time
 
 game = True
-item=[{'name':'baton', 'stat' : 5, 'prix' : 100, 'type' : 'weapon'}, {'name':'coeuracier', 'stat' : 15, 'prix' : 500, 'type': 'armor'}, {'name':'botte symbiotique', 'stat' : 10, 'prix': 400, 'type' : 'boots'}
+item=[{'name':'baton', 'stat' : 5, 'prix' : 100, 'type' : 'weapon'}, {'name':'coeuracier', 'stat' : 15, 'prix' : 500, 'type': 'armor'}, {'name':'botte symbiotique', 'stat' : 10, 'prix': 400, 'type' : 'boots'}]
 class character:
     def __init__(self):
         self.startPV = 100
