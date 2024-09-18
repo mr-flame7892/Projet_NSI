@@ -152,7 +152,7 @@ def characterAttacks():
     rounds.TypeTurn = "👤"
     rounds.length = rounds.length + 1
     randomDMG = random.randint(1, 25)
-    DMG = round(randomDMG + character.currentDMG - monstre.currentDef/100, 0)
+    DMG = round(randomDMG + character.currentDMG - monstre.currentDef, 0)
     monstre.currentPV = round(monstre.currentPV - DMG, 0)
     if monstre.currentPV <= 0:
         nbrPO = random.randint(100, 300)
