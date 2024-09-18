@@ -229,7 +229,7 @@ def reAsk():
         
 
 def launchRoom():
-    print(f"Un/e {monstre.type} apparaît ")
+    print(f"\n--------------------------------\n\nUn/e {monstre.type} apparaît ")
     rounds.length = 0
     if character.room != 1:
         monstre.resetMonstre()
