@@ -26,7 +26,7 @@ class character:
         self.currentDMG = round(self.startDMG + self.startDMG * self.weapon["dmg"], 0)
         
     def getStats(self):
-        print(f"Votre personnage à :\n\n- {self.currentPV} PV ({self.startPV} de base)\n- {self.currentDef} DEF ({self.startDef} de base)\n- {self.currentSpeed} SPEED ({self.startSpeed} de base)\n- {self.currentDMG} DMG ({self.startDMG} de base)\n- {self.startMana} de mana (100 de base)")
+        print(f"Votre personnage à :\n\n- {self.currentPV} PV ({self.startPV} de base)\n- {self.currentDef} DEF ({self.startDef} de base)\n- {self.currentSpeed} SPEED ({self.startSpeed} de base)\n- {self.currentDMG} DMG ({self.startDMG} de base)\n- {self.startMana} de mana (100 de base)\n\nVous avez {self.gold} PO et vous êtes level {self.lvl} ({self.exp} exp / {self.limitExp} exp)")
         return
     
     def getInventory(self):
@@ -187,18 +187,23 @@ def characterAttacks():
     if monstre.currentPV <= 0:
         nbrPO = random.randint(100, 300)
         nbrEXP = random.randint(50, 75)
-        print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\n{monstre.type} s'est pris {DMG} DMG\nIl se désintégre sous vous yeux ! (Vous avez reçu {nbrPO} PO et {nbrEXP} points d'exp)")
+        print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\n{monstre.type} s'est pris {DMG} DMG\nIl se désintégre sous vous yeux ! (Vous avez reçu {nbrPO} PO et {nbrEXP} points d'exp)\n")
         character.gold = character.gold + random.randint(100, 300)
         character.exp = character.exp + nbrEXP
         if character.exp >= character.limitExp:
             character.lvl = character.lvl + 1
             character.exp = character.exp - character.limitExp
             character.limitExp = character.limitExp + 50
-            print(f"\n--------------------------------\n\nFélicitations, vous êtes monté au niveau {character.lvl} ({character.exp} / {character.limitExp})\n")
-        print(f"\n--------------------------------\n\nVous avez triomphé du mal, cependant il vous reste du chemin à parcourir...\n")
+            character.startPV = character.startPV + 20
+            character.startDMG = character.startDMG + 2
+            character.startDef = character.startDef + 2
+            character.startSpeed = character.startSpeed + 2
+            character.calculateStats()
+            print(f"--------------------------------\n\n🎉 Félicitations !\nVous êtes monté au niveau supérieur ! ({character.lvl - 1} -> {character.lvl} ({character.exp} exp / {character.limitExp} exp)\nVos stats ont été mises à jour !\n")
+        print(f"--------------------------------\n\nVous avez triomphé du mal, cependant il vous reste du chemin à parcourir...\n")
         reAsk()
     else:
-        print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\n{monstre.type}s'est pris {DMG} DMG\nIl lui reste {monstre.currentPV} PV !")
+        print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\n{monstre.type} s'est pris {DMG} DMG\nIl lui reste {monstre.currentPV} PV !")
         time.sleep(2)
         monstreAttacks()
 
