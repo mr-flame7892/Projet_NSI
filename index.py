@@ -91,7 +91,7 @@ class monstres:
         self.boss = False
         chanceBoss = random.randint(1,100)
         
-        if (chanceBoss <= 100) and (character.room > 1):
+        if (chanceBoss <= 20) and (character.room > 1):
             self.boss = True
         
     def getStats(self):
