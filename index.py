@@ -85,9 +85,9 @@ class monstres:
         self.defence = 6
         self.speed = 25
         self.currentPV = 95
-        self.currentDef = 4
+        self.currentDef = 6
         self.currentSpeed = 25
-        self.currentDMG = 4
+        self.currentDMG = 2
         self.boss = False
         chanceBoss = random.randint(1,100)
         
