@@ -149,7 +149,7 @@ def askPlayer():
         character.getStats()
         return askPlayer()
     elif question == "potion":
-        whichPotion = input("\n--------------------------------\n\nQuelle potion voulez-vous utiliser ? (vie/mana)\nPour retourner en arrière, utiliser return")
+        whichPotion = input("\n--------------------------------\n\nQuelle potion voulez-vous utiliser ? (vie/mana)\nPour retourner en arrière, utiliser return\n\n")
         if whichPotion == "vie":
             if character.currentPV == character.startPV:
                 print("\n--------------------------------\n\nVotre vie est déjà pleine !")
@@ -180,7 +180,7 @@ def characterAttacks():
     DMG = round((randomDMG * character.currentDMG) - ((randomDMG * character.currentDMG) * monstre.currentDef/100), 0)
     monstre.currentPV = round(monstre.currentPV - DMG, 0)
     if monstre.currentPV <= 0:
-        print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\nLe monstre s'est pris {DMG} DMG\nIl se désintégre sous vous yeux !")
+        print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\n{monstre.type} s'est pris {DMG} DMG\nIl se désintégre sous vous yeux !")
         print(f"\n--------------------------------\n\nVous avez triomphé du mal, cependant il vous reste du chemin à parcourir...\n")
         reAsk()
     else:
