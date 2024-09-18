@@ -106,7 +106,7 @@ def shop():
     vente=[listItems[random.randint(0,len(listItems)-1)],listItems[random.randint(0,len(listItems)-1)],listItems[random.randint(0,len(listItems)-1)]]
     character.items["PotionSoin"] = character.items["PotionSoin"] + 2
     character.items["PotionMana"] = character.items["PotionMana"] + 2
-    choix = input(f"Vous entrez dans une salle dans laquelle le marchand vous donne par gratitude de vos exploits 2 potions de soins et de mana.\nIl est prêt à vous vendre uniquement 1 de ses 3 items afin de vous aider dans votre quête :\n\n1) {vente[0]['name']} ({vente[0]['stat']} {vente[0]['type']} prix : {vente[0]['prix']} PO)\n2) {vente[1]['name']} ({vente[1]['stat']} {vente[1]['type']} prix : {vente[1]['prix']} PO)\n3) {vente[2]['name']} ({vente[2]['stat']} {vente[2]['type']} prix : {vente[2]['prix']} PO)\n\nVous possédez {character.gold} PO : ")
+    choix = input(f"Vous entrez dans une salle dans laquelle le marchand vous donne par gratitude de vos exploits, il vous donne en récompense 2 potions de soins et de mana.\nIl est prêt à vous vendre uniquement 1 de ses 3 items afin de vous aider dans votre quête :\n\n1) {vente[0]['name']} ({vente[0]['stat']} {vente[0]['type']} prix : {vente[0]['prix']} PO)\n2) {vente[1]['name']} ({vente[1]['stat']} {vente[1]['type']} prix : {vente[1]['prix']} PO)\n3) {vente[2]['name']} ({vente[2]['stat']} {vente[2]['type']} prix : {vente[2]['prix']} PO)\n\nVous possédez {character.gold} PO : ")
     if choix == '1':
         item = vente[0]
         if character.gold >= item['prix']:
