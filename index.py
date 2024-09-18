@@ -2,7 +2,7 @@ import random
 import time
 
 game = True
-item=[{'name':'baton', 'stat' : 5, 'prix' : 100, 'type' : 'weapon'}, {'name':'coeuracier', 'stat' : 15, 'prix' : 500, 'type': 'armor'}, {'name':'botte symbiotique', 'stat' : 10, 'prix': 400, 'type' : 'boots'}]
+listItems=[{'name':'Baton', 'stat' : 5, 'prix' : 300, 'type' : 'dmg'}, {'name':'Coeuracier', 'stat' : 10, 'prix' : 1000, 'type': 'def'}, {'name':'Bottes Symbiotiques', 'stat' : 10, 'prix': 700, 'type' : 'speed'}]
 
 class character:
     def __init__(self):
@@ -12,9 +12,9 @@ class character:
         self.startSpeed = 30
         self.startMana = 100
         self.items = { "PotionSoin": 2, "PotionMana": 2}
-        self.armor = { "name": "Tunique en Cuire", "def": 5}
-        self.boots = { "name": "Bottes en Cuir", "speed": 5 }
-        self.weapon = { "name": "Branche d'Arbre", "dmg": 5 }
+        self.armor = { "name": "Tunique en Cuire", "def": 2}
+        self.boots = { "name": "Bottes en Cuir", "speed": 2 }
+        self.weapon = { "name": "Branche d'Arbre", "dmg": 2 }
         self.exp = 0
         self.limitExp = 50
         self.lvl = 1
@@ -31,7 +31,7 @@ class character:
         return
     
     def getInventory(self):
-        print(f"Votre personnage à :\n\n- Armure : {self.armor['name']}\n- Bottes : {self.boots['name']}\n- Arme : {self.weapon['name']}\n\nVous avez {self.gold} PO et vous êtes level {self.lvl} ({self.exp} exp / {self.limitExp} exp)")
+        print(f"Votre personnage à :\n\n- Armure : {self.armor['name']} (+{self.armor['def']} DEF)\n- Bottes : {self.boots['name']} (+{self.boots['speed']} SPEED)\n- Arme : {self.weapon['name']} (+{self.weapon['dmg']} DMG)\n\nVous avez {self.gold} PO et vous êtes level {self.lvl} ({self.exp} exp / {self.limitExp} exp)")
         return
     
     def calculateStats(self):
@@ -43,9 +43,9 @@ class character:
     
     def resetCharacter(self):
         self.items = { "PotionSoin": 2, "PotionMana": 2}
-        self.armor = { "name": "Tunique en Cuire", "def": 5}
-        self.boots = { "name": "Bottes en Cuir", "speed": 5 }
-        self.weapon = { "name": "Branche d'Arbre", "dmg": 5 }
+        self.armor = { "name": "Tunique en Cuire", "def": 2}
+        self.boots = { "name": "Bottes en Cuir", "speed": 2 }
+        self.weapon = { "name": "Branche d'Arbre", "dmg": 2 }
         self.exp = 0
         self.limitExp = 50
         self.lvl = 1
@@ -103,12 +103,58 @@ monstre = monstres()
 
 
 def shop():
-    vente=[item[random.randint(0,len(item)-1)],item[random.randint(0,len(item)-1)],item[random.randint(0,len(item)-1)]]
-    choix=input(f"Vous entrez dans une salle dans laquelle le marchand vous  1) {vente[0]['name']}(vente[0]['']) ; 2)={vente[1]} ; 3={vente[2]}")
-    if choix=='1':
-        print(choix)
-        if character.gold>=vente[0]['prix']:
-            print('t"as la thune pd')
+    vente=[listItems[random.randint(0,len(listItems)-1)],listItems[random.randint(0,len(listItems)-1)],listItems[random.randint(0,len(listItems)-1)]]
+    character.items["PotionSoin"] = character.items["PotionSoin"] + 2
+    character.items["PotionMana"] = character.items["PotionMana"] + 2
+    choix = input(f"Vous entrez dans une salle dans laquelle le marchand vous donne par gratitude de vos exploits 2 potions de soins et de mana.\nIl est prêt à vous vendre uniquement 1 de ses 3 items afin de vous aider dans votre quête :\n\n1) {vente[0]['name']} ({vente[0]['stat']} {vente[0]['type']} prix : {vente[0]['prix']} PO)\n2) {vente[1]['name']} ({vente[1]['stat']} {vente[1]['type']} prix : {vente[1]['prix']} PO)\n3) {vente[2]['name']} ({vente[2]['stat']} {vente[2]['type']} prix : {vente[2]['prix']} PO)\n\nVous possédez {character.gold} PO : ")
+    if choix == '1':
+        item = vente[0]
+        if character.gold >= item['prix']:
+            if item["type"] == "dmg":
+                character.weapon["name"] = item["name"]
+                character.weapon["dmg"] = item["stat"]
+            elif item["type"] == "def":
+                character.armor["name"] = item["name"]
+                character.armor["def"] = item["stat"]
+            elif item["type"] == "speed":
+                character.boots["name"] = item["name"]
+                character.boots["speed"] = item["stat"]
+        else:
+            print("\n--------------------------------\n\nVous n'avez pas assez de PO !\n--------------------------------")
+            return shop()
+    elif choix == "2":
+        item = vente[1]
+        if character.gold >= item['prix']:
+            if item["type"] == "dmg":
+                character.weapon["name"] = item["name"]
+                character.weapon["dmg"] = item["stat"]
+            elif item["type"] == "def":
+                character.armor["name"] = item["name"]
+                character.armor["def"] = item["stat"]
+            elif item["type"] == "speed":
+                character.boots["name"] = item["name"]
+                character.boots["speed"] = item["stat"]
+        else:
+            print("\n--------------------------------\n\nVous n'avez pas assez de PO !\n--------------------------------")
+            return shop()
+    elif choix == "3":
+        item = vente[2]
+        if character.gold >= item['prix']:
+            if item["type"] == "dmg":
+                character.weapon["name"] = item["name"]
+                character.weapon["dmg"] = item["stat"]
+            elif item["type"] == "def":
+                character.armor["name"] = item["name"]
+                character.armor["def"] = item["stat"]
+            elif item["type"] == "speed":
+                character.boots["name"] = item["name"]
+                character.boots["speed"] = item["stat"]
+        else:
+            print("\n--------------------------------\n\nVous n'avez pas assez de PO !\n--------------------------------")
+            return shop()
+    character.calculateStats()
+    print(f"\n--------------------------------\n\nVous avez acheté un/e {vente[int(choix) - 1]['name']}, la salle se fait soudainement envahir par les ténèbres puis après quelques secondes, cette dernière revient à la normale cependant, il ne reste plus que vous !")
+    return
 
 class tour:
     def __init__(self):
@@ -166,7 +212,7 @@ def characterAttacks():
     DMG = round(randomDMG + character.currentDMG - monstre.currentDef, 0)
     monstre.currentPV = round(monstre.currentPV - DMG, 0)
     if monstre.currentPV <= 0:
-        nbrPO = random.randint(100, 300)
+        nbrPO = random.randint(50, 200)
         nbrEXP = random.randint(50, 75)
         if monstre.boss == True:
             nbrPO = nbrPO * 2
@@ -195,7 +241,7 @@ def characterAttacks():
 def monstreAttacks():
     rounds.TypeTurn = "💀"
     rounds.length = rounds.length + 1
-    randomDMG = random.randint(5, 30)
+    randomDMG = random.randint(10, 30)
     DMG = round(randomDMG + monstre.currentDMG - character.currentDef, 0)
     character.currentPV = round(character.currentPV - DMG, 0)
     if character.currentPV <= 0:
