@@ -8,30 +8,31 @@ class character:
         self.startDMG = 5
         self.startDef = 5
         self.startSpeed = 30
+        self.startMana = 100
         self.items = { "PotionSoin": 2, "PotionMana": 2}
-        self.armor = { "name": "Tunique en Cuire", "pv": 10/100, "def": 10/100}
+        self.armor = { "name": "Tunique en Cuire", "def": 10/100}
         self.boots = { "name": "Bottes en Cuir", "speed": 10/100 }
-        self.weapon = { "name": "Branche d'Arbre", "dmg": 15/100 }
+        self.weapon = { "name": "Branche d'Arbre", "dmg": 5/100 }
         self.exp = 0
         self.limitExp = 1
         self.lvl = 1
         self.chests = 0
         self.room = 1
-        self.currentPV = round(self.startPV + self.startPV * self.armor["pv"], 0)
+        self.currentPV = self.startPV
         self.currentDef = round(self.startDef + self.startDef * self.armor["def"], 0)
         self.currentSpeed = round(self.startSpeed + self.startSpeed * self.boots["speed"], 0)
         self.currentDMG = round(self.startDMG + self.startDMG * self.weapon["dmg"], 0)
         
     def getStats(self):
-        print(f"Votre personnage à :\n\n- {self.currentPV} PV ({self.startPV} de base)\n- {self.currentDef} DEF ({self.startDef} de base)\n- {self.currentSpeed} SPEED ({self.startSpeed} de base)\n- {self.currentDMG} DMG ({self.startDMG} de base)")
+        print(f"Votre personnage à :\n\n- {self.currentPV} PV ({self.startPV} de base)\n- {self.currentDef} DEF ({self.startDef} de base)\n- {self.currentSpeed} SPEED ({self.startSpeed} de base)\n- {self.currentDMG} DMG ({self.startDMG} de base)\n- {self.startMana} de mana (100 de base)")
         return
     
-    def seeInventory(self):
+    def getInventory(self):
         print(f"Votre personnage à :\n\n- Armure : {self.armor['name']}\n- Bottes : {self.boots['name']}\n- Arme : {self.weapon['name']}")
         return
     
     def calculateStats(self):
-        self.currentPV = round(self.startPV + self.startPV * self.armor["pv"], 0)
+        self.currentPV = self.startPV
         self.currentDef = round(self.startDef + self.startDef * self.armor["def"], 0)
         self.currentSpeed = round(self.startSpeed + self.startSpeed * self.boots["speed"], 0)
         self.currentDMG = round(self.startDMG + self.startDMG * self.weapon["dmg"], 0)
@@ -39,9 +40,9 @@ class character:
     
     def resetCharacter(self):
         self.items = { "PotionSoin": 2, "PotionMana": 2}
-        self.armor = { "name": "Tunique en Cuire", "pv": 5/100, "def": 10/100}
+        self.armor = { "name": "Tunique en Cuire", "def": 10/100}
         self.boots = { "name": "Bottes en Cuir", "speed": 10/100 }
-        self.weapon = { "name": "Branche d'Arbre", "dmg": 15/100 }
+        self.weapon = { "name": "Branche d'Arbre", "dmg": 5/100 }
         self.exp = 0
         self.limitExp = 1
         self.lvl = 1
@@ -85,7 +86,8 @@ class monstres:
             self.boss = True
         
     def getStats(self):
-        return f"Le monstre à :\n\n- {self.currentPV} PV ({self.pv} de base)\n- {self.currentDef} DEF ({self.defence} de base)\n- {self.currentSpeed} SPEED ({self.speed} de base)\n- {self.currentDMG} DMG ({self.attack} de base)"
+        print(f"Le monstre à :\n\n- {self.currentPV} PV ({self.pv} de base)\n- {self.currentDef} DEF ({self.defence} de base)\n- {self.currentSpeed} SPEED ({self.speed} de base)\n- {self.currentDMG} DMG ({self.attack} de base)")
+        return
 
 monstre = monstres()
 
@@ -163,11 +165,51 @@ def reAskGameOver():
         return
     else:
         reAskGameOver()
+    
+def askPlayer():
+    question = input("\n--------------------------------\n\nQuelle action voulez-vous réaliser ? (inventory/attaque/potion/monstre/stats)")
+    
+    if question == "inventory":
+        print("\n--------------------------------\n")
+        character.getInventory()
+        return askPlayer()
+    elif question == "attaque":
+        return characterAttacks()
+    elif question == "monstre":
+        print("\n--------------------------------\n")
+        monstre.getStats()
+        return askPlayer()
+    elif question == "stats":
+        print("\n--------------------------------\n")
+        character.getStats()
+        return askPlayer()
+    elif question == "potion":
+        whichPotion = input("\n--------------------------------\n\nQuelle potion voulez-vous utiliser ? (vie/mana)\nPour retourner en arrière, utiliser return")
+        if whichPotion == "vie":
+            if character.currentPV == character.startPV:
+                print("\n--------------------------------\n\nVotre vie est déjà pleine !")
+                return askPlayer()
+            character.items["PotionSoin"] = character.items["PotionSoin"] - 1
+            character.currentPV = character.startPV
+            print(f"\n--------------------------------\n\nVous avez récupéré tous vos PV !")
+            return askPlayer()
+        elif whichPotion == "mana":
+            if character.startMana == 100:
+                print("\n--------------------------------\n\nVotre mana est déjà rempli !")
+                return askPlayer()
+            character.items["PotionMana"] = character.items["PotionMana"] - 1
+            gainedMana = 100 - character.startMana
+            character.startMana = character.startMana + gainedMana
+            print(f"\n--------------------------------\n\nVous avez récupéré tous votre mana !")
+            return askPlayer()
+    else:
+        return askPlayer()
+    
 
 def monstreAttacks():
     rounds.TypeTurn = "💀"
     rounds.length = rounds.length + 1
-    randomDMG = random.randint(1, 5)
+    randomDMG = random.randint(1, 10)
     DMG = round((randomDMG * monstre.currentDMG) - ((randomDMG * monstre.currentDMG) * character.currentDef/100), 0)
     character.currentPV = round(character.currentPV - DMG, 0)
     if character.currentPV <= 0:
@@ -176,8 +218,7 @@ def monstreAttacks():
         reAskGameOver()
     else:
         print(f"\n--------------------------------\n\n{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\nVous vous êtes pris {DMG} DMG\nIl vous reste {character.currentPV} PV !")
-        input("\n--------------------------------\n\nAppuyez sur Entrée pour continuer le combat")
-        characterAttacks()
+        askPlayer()
 
 def launchRoom():
     rounds.length = 0
@@ -199,7 +240,7 @@ def launchRoom():
             print(f"--------------------------------\n\n⚠️ Un boss est aparu ! ⚠️\n\n{monstre.getStats()}\n")
     while monstre.currentPV >= 0 and character.currentPV >= 0:
         if monstre.currentSpeed < character.currentSpeed:
-            characterAttacks()
+            askPlayer()
         else:
             monstreAttacks()
 
@@ -214,7 +255,7 @@ def askTuto():
     tuto = input("tuto ? (y/n)")
 
     if tuto == "y":
-        print("Chère joueur, vous aller découvrir un jeux codé grâce au connaissance acquise en spé N.S.I :\n-----------------------\nLe jeux se joue avec la console de Thonny et est uniquement textuel suivez les instructions et profiter du jeu\n----------------------- ")
+        print("Cher joueur, vous aller découvrir un jeux codé grâce au connaissance acquise en spé N.S.I :\n-----------------------\nLe jeux se joue avec la console de Thonny et est uniquement textuel suivez les instructions et profiter du jeu\n----------------------- ")
         input("Appuyez sur entrée quand vous êtes prêt !")
         launchGame()
     elif tuto == "n":
