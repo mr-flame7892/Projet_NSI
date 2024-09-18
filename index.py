@@ -227,7 +227,7 @@ def launchRoom():
     if monstre.boss == True:
             i = 0
             while i <= 1:
-                stat = random.randint(0, 4)
+                stat = random.randint(0, 3)
                 if stat == 0:
                     monstre.currentPV = round((monstre.currentPV * 0.5) + monstre.currentPV, 0)
                 elif stat == 1:
