@@ -132,7 +132,7 @@ class tour():
 rounds = tour()
         
 def askPlayer():
-    question = input("\n--------------------------------\n\nQuelle action voulez-vous réaliser ? (inventory/attaque/potion/monstre/stats)")
+    question = input("\n--------------------------------\n\nQuelle action voulez-vous réaliser ? (inventory/attaque/potion/monstre/stats) : ")
     
     if question == "inventory":
         print("\n--------------------------------\n")
@@ -149,7 +149,7 @@ def askPlayer():
         character.getStats()
         return askPlayer()
     elif question == "potion":
-        whichPotion = input("\n--------------------------------\n\nQuelle potion voulez-vous utiliser ? (vie/mana)\nPour retourner en arrière, utiliser return\n\n")
+        whichPotion = input("\n--------------------------------\n\nQuelle potion voulez-vous utiliser ? (vie/mana)\nPour retourner en arrière, utiliser return : ")
         if whichPotion == "vie":
             if character.currentPV == character.startPV:
                 print("\n--------------------------------\n\nVotre vie est déjà pleine !")
@@ -229,7 +229,7 @@ def reAsk():
         
 
 def launchRoom():
-    print(f"Un/e {monstre.type} apparaît ")
+    print(f"\nUn/e {monstre.type} apparaît ! ")
     rounds.length = 0
     if character.room != 1:
         monstre.resetMonstre()
@@ -262,10 +262,10 @@ def launchGame():
         launchRoom()
                   
 def askTuto():
-    tuto = input("tuto ? (y/n)")
+    tuto = input("tuto ? (y/n) :  ")
 
     if tuto == "y":
-        print("Cher joueur, vous aller découvrir un jeux codé grâce au connaissance acquise en spé N.S.I :\n-----------------------\nLe jeux se joue avec la console de Thonny et est uniquement textuel suivez les instructions et profiter du jeu\n----------------------- ")
+        print("\nCher joueur, vous aller découvrir un jeux codé grâce au connaissance acquise en spé N.S.I :\n-----------------------\nLe jeux se joue avec la console de Thonny et est uniquement textuel suivez les instructions et profiter du jeu\n----------------------- ")
         input("Appuyez sur entrée quand vous êtes prêt !")
         launchGame()
     elif tuto == "n":
@@ -275,4 +275,3 @@ def askTuto():
 
 askTuto()
 
-askTuto()
