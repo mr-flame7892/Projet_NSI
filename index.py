@@ -252,7 +252,9 @@ def launchRoom():
                     else:
                         monstre.currentSpeed = round((monstre.currentSpeed * 0.5) + monstre.currentSpeed, 0)
                     i = i + 1
-                print(f"--------------------------------\n\n⚠️ Un boss est aparu ! ⚠️\n\n{monstre.getStats()}\n")
+                print(f"--------------------------------\n\n⚠️ Un boss est aparu ! ⚠️\n\n")
+                monstre.getStats()
+                print("\n")
         while monstre.currentPV >= 0 and character.currentPV >= 0:
             if monstre.currentSpeed < character.currentSpeed:
                 askPlayer()
