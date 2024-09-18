@@ -132,7 +132,7 @@ class tour():
 rounds = tour()
         
 def askPlayer():
-    question = input("\n--------------------------------\n\nQuelle action voulez-vous réaliser ? (inventory/attaque/potion/monstre/stats)")
+    question = input("\n--------------------------------\n\nQuelle action voulez-vous réaliser ? (inventory/attaque/potion/monstre/stats) : ")
     
     if question == "inventory":
         print("\n--------------------------------\n")
@@ -149,7 +149,7 @@ def askPlayer():
         character.getStats()
         return askPlayer()
     elif question == "potion":
-        whichPotion = input("\n--------------------------------\n\nQuelle potion voulez-vous utiliser ? (vie/mana)\nPour retourner en arrière, utiliser return ")
+        whichPotion = input("\n--------------------------------\n\nQuelle potion voulez-vous utiliser ? (vie/mana)\nPour retourner en arrière, utiliser return : ")
         if whichPotion == "vie":
             if character.currentPV == character.startPV:
                 print("\n--------------------------------\n\nVotre vie est déjà pleine !")
@@ -205,7 +205,7 @@ def monstreAttacks():
 
 
 def reAskGameOver():
-    restart = input("--------------------------------\n\nSouhaitez-vous recommencer ? (y/n)")
+    restart = input("--------------------------------\n\nSouhaitez-vous recommencer ? (y/n) : ")
     if restart == "y":
         return launchGame()
     elif restart == "n":
@@ -216,7 +216,7 @@ def reAskGameOver():
         reAskGameOver()
         
 def reAsk():
-    restart = input("--------------------------------\n\nSouhaitez-vous continuer ? (y/n)")
+    restart = input("--------------------------------\n\nSouhaitez-vous continuer ? (y/n) : ")
     if restart == "y":
         character.room = character.room + 1
         return launchRoom()
@@ -229,7 +229,7 @@ def reAsk():
         
 
 def launchRoom():
-    print(f"Un/e {monstre.type} apparaît ")
+    print(f"\n--------------------------------\n\nUn/e {monstre.type} apparaît ")
     rounds.length = 0
     if character.room != 1:
         monstre.resetMonstre()
@@ -262,7 +262,7 @@ def launchGame():
         launchRoom()
                   
 def askTuto():
-    tuto = input("tuto ? (y/n)")
+    tuto = input("tuto ? (y/n) : ")
 
     if tuto == "y":
         print("Cher joueur, vous aller découvrir un jeux codé grâce au connaissance acquise en spé N.S.I :\n-----------------------\nLe jeux se joue avec la console de Thonny et est uniquement textuel suivez les instructions et profiter du jeu\n----------------------- ")
