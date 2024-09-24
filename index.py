@@ -2,7 +2,14 @@ import random
 import time
 
 game = True
-listItems=[{'name':'Baton', 'stat' : 5, 'prix' : 300, 'type' : 'dmg'}, {'name':'Coeuracier', 'stat' : 10, 'prix' : 1000, 'type': 'def'}, {'name':'Bottes Symbiotiques', 'stat' : 10, 'prix': 700, 'type' : 'speed'}]
+
+listItemsCommon = [{'name':'Baton', 'stat' : 5, 'prix' : 300, 'type' : 'dmg'}]
+listItemsRare = [{'name':'Bottes Symbiotiques', 'stat' : 10, 'prix': 700, 'type' : 'speed'}]
+listItemsEpic = [{'name':'Coeuracier', 'stat' : 10, 'prix' : 1000, 'type': 'def'}]
+listItemsLegendary = []
+listItemsMythic = []
+
+listRarities = [listItemsCommon, listItemsRare, listItemsEpic, listItemsLegendary, listItemsMythic]
 
 class character:
     def __init__(self):
@@ -57,14 +64,14 @@ class character:
 
 character = character()
 
-listeMonstre=["Zombie","Squellette","Brigand","Araignée","Daronne d'Enzo","Loup-Garou","Sirène maléfique"]
+listeMonstre=["Zombie","Squelette","Brigand","Araignée","Goblin","Loup-Garou","Sirène maléfique","Gnome maléfique"]
 
 class monstres:
     def __init__(self):
         self.type=listeMonstre[random.randint(0,len(listeMonstre)-1)]
         self.lvl = 1
         self.pv = 95
-        self.attack = 2
+        self.attack = 4
         self.defence = 6
         self.speed = 25
         self.boss = False
@@ -103,10 +110,11 @@ monstre = monstres()
 
 
 def shop():
-    vente=[listItems[random.randint(0,len(listItems)-1)],listItems[random.randint(0,len(listItems)-1)],listItems[random.randint(0,len(listItems)-1)]]
+    rarities=[listRarities[random.randint(0, 2)], listRarities[random.randint(0, 2)], listRarities[random.randint(0, 2)]]
+    vente=[rarities[0][random.randint(0,len(rarities[0])-1)],rarities[1][random.randint(0,len(rarities[1])-1)],rarities[1][random.randint(0,len(rarities[2])-1)]]
     character.items["PotionSoin"] = character.items["PotionSoin"] + 2
     character.items["PotionMana"] = character.items["PotionMana"] + 2
-    choix = input(f"\n--------------------------------\n\nVous entrez dans une salle dans laquelle le marchand vous donne par gratitude de vos exploits, il vous donne en récompense 2 potions de soins et de mana.\nIl est prêt à vous vendre uniquement 1 de ses 3 items afin de vous aider dans votre quête :\n\n1) {vente[0]['name']} ({vente[0]['stat']} {vente[0]['type']} prix : {vente[0]['prix']} PO)\n2) {vente[1]['name']} ({vente[1]['stat']} {vente[1]['type']} prix : {vente[1]['prix']} PO)\n3) {vente[2]['name']} ({vente[2]['stat']} {vente[2]['type']} prix : {vente[2]['prix']} PO)\n\nVous possédez {character.gold} PO (écrivez le numéro de l'item que vous souhaitez acheter ou bien écrivez \"pass\" pour passer à la prochaine salle): ")
+    choix = input(f"\n--------------------------------\n\nVous entrez dans une salle dans laquelle le marchand vous donne par gratitude de vos exploits, il vous donne en récompense 2 potions de soins et de mana.\nIl est prêt à vous vendre uniquement 1 de ses 3 items afin de vous aider dans votre quête :\n\n1) {vente[0]['name']} (+{vente[0]['stat']} {vente[0]['type']} prix : {vente[0]['prix']} PO)\n2) {vente[1]['name']} (+{vente[1]['stat']} {vente[1]['type']} prix : {vente[1]['prix']} PO)\n3) {vente[2]['name']} (+{vente[2]['stat']} {vente[2]['type']} prix : {vente[2]['prix']} PO)\n\nVous possédez {character.gold} PO (écrivez le numéro de l'item que vous souhaitez acheter ou bien écrivez \"pass\" pour passer à la prochaine salle): ")
     if choix == '1':
         item = vente[0]
         if character.gold >= item['prix']:
@@ -157,8 +165,9 @@ def shop():
         return
     else:
         return shop()
+    character.gold = character.gold - vente[int(choix) - 1]['prix']
     character.calculateStats()
-    print(f"\n--------------------------------\n\nVous avez acheté un/e {vente[int(choix) - 1]['name']}, la salle se fait soudainement envahir par les ténèbres puis après quelques secondes, cette dernière revient à la normale cependant, il ne reste plus que vous !")
+    print(f"\n--------------------------------\n\nVous avez acheté un/e {vente[int(choix) - 1]['name']} pour {vente[int(choix) - 1]['prix']} PO, la salle se fait soudainement envahir par les ténèbres puis après quelques secondes, cette dernière revient à la normale cependant, il ne reste plus que vous !")
     return
 
 class tour:
@@ -169,23 +178,26 @@ class tour:
 rounds = tour()
         
 def askPlayer():
-    question = input("\n--------------------------------\n\nQuelle action voulez-vous réaliser ? (inventory/attaque/potion/monstre/stats) : ")
+    question = input("\n--------------------------------\n\nQuelle action voulez-vous réaliser ?\n\n1) attaque\n2) potion\n3) stats\n4) monstre\n5) inventaire\n\nVeuillez marquer le numéro de l'action que vous souhaitez réaliser : ")
     
-    if question == "inventory":
+    if question == "5":
         print("\n--------------------------------\n")
         character.getInventory()
+        time.sleep(3)
         return askPlayer()
-    elif question == "attaque":
+    elif question == "1":
         return characterAttacks()
-    elif question == "monstre":
+    elif question == "4":
         print("\n--------------------------------\n")
         monstre.getStats()
+        time.sleep(3)
         return askPlayer()
-    elif question == "stats":
+    elif question == "3":
         print("\n--------------------------------\n")
         character.getStats()
+        time.sleep(3)
         return askPlayer()
-    elif question == "potion":
+    elif question == "2":
         whichPotion = input(f"\n--------------------------------\n\nQuelle potion voulez-vous utiliser ? (vie/mana)\nVous possédez {character.items['PotionSoin']} potion(s) de soin et {character.items['PotionMana']} potion(s) de mana\nPour retourner en arrière, utiliser return : ")
         if whichPotion == "vie":
             if character.currentPV == character.startPV:
@@ -213,8 +225,8 @@ randomDMG = None
 def characterAttacks():
     rounds.TypeTurn = "👤"
     rounds.length = rounds.length + 1
-    randomDMG = random.randint(5, 30)
-    DMG = round(randomDMG + character.currentDMG - monstre.currentDef, 0)
+    randomDMG = random.randint(10, 30)
+    DMG = round(randomDMG + character.currentDMG - monstre.currentDef / 2, 0)
     monstre.currentPV = round(monstre.currentPV - DMG, 0)
     if monstre.currentPV <= 0:
         nbrPO = random.randint(50, 200)
@@ -222,23 +234,24 @@ def characterAttacks():
         if monstre.boss == True:
             nbrPO = nbrPO * 2
             nbrEXP = nbrEXP * 2
-        print(f"\n--------------------------------\n\n\033[94m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\033[0m\n{monstre.type} s'est pris \033[91m{DMG}\033[0m DMG\nIl se désintégre sous vous yeux ! (Vous avez reçu {nbrPO} PO et {nbrEXP} points d'exp)\n")
-        character.gold = character.gold + random.randint(100, 300)
-        character.exp = character.exp + nbrEXP
+        print(f"\n--------------------------------\n\n\033[94m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\033[0m\n{monstre.type} s'est pris \033[91m{DMG}\033[0m DMG ({DMG - character.currentDMG + monstre.currentDef} DMG + {character.currentDMG} DMG - {monstre.currentDef / 2} DEF)\nIl se désintégre sous vous yeux ! (Vous avez reçu {nbrPO} PO et {nbrEXP} points d'exp)\n")
+        character.gold = character.gold + random.randint(100, 300) * monstre.lvl
+        character.exp = character.exp + nbrEXP * monstre.lvl
         if character.exp >= character.limitExp:
-            character.lvl = character.lvl + 1
-            character.exp = character.exp - character.limitExp
-            character.limitExp = character.limitExp + 50
-            character.startPV = character.startPV + 10
-            character.startDMG = character.startDMG + 2
-            character.startDef = character.startDef + 2
-            character.startSpeed = character.startSpeed + 2
-            character.calculateStats()
-            print(f"--------------------------------\n\n🎉 Félicitations !\nVous êtes monté au niveau supérieur ! ({character.lvl - 1} -> {character.lvl} ({character.exp} exp / {character.limitExp} exp)\nVos stats ont été mises à jour !\n")
+            while character.exp >= character.limitExp:
+                character.lvl = character.lvl + 1
+                character.exp = character.exp - character.limitExp
+                character.limitExp = character.limitExp + 50
+                character.startPV = character.startPV + 2 * character.lvl
+                character.startDMG = character.startDMG + 2 * character.lvl
+                character.startDef = character.startDef + 2 * character.lvl
+                character.startSpeed = character.startSpeed + 2 * character.lvl
+                character.calculateStats()
+                print(f"--------------------------------\n\n🎉 Félicitations !\nVous êtes monté au niveau supérieur ! ({character.lvl - 1} -> {character.lvl} ({character.exp} exp / {character.limitExp} exp)\nVos stats ont été mises à jour !\n")
         print(f"--------------------------------\n\nVous avez triomphé du mal, cependant il vous reste du chemin à parcourir...\n")
         reAsk()
     else:
-        print(f"\n--------------------------------\n\n\033[94m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\033[0m\nLe/La/L' {monstre.type} s'est pris \033[91m{DMG}\033[0m DMG\nIl lui reste \033[92m{monstre.currentPV}\033[0m PV !")
+        print(f"\n--------------------------------\n\n\033[94m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\033[0m\nLe/La/L' {monstre.type} s'est pris \033[91m{DMG}\033[0m DMG ({DMG - character.currentDMG + monstre.currentDef} DMG + {character.currentDMG} DMG - {monstre.currentDef / 2} DEF)\nIl lui reste \033[92m{monstre.currentPV}\033[0m PV !")
         time.sleep(1)
         monstreAttacks()
 
@@ -247,14 +260,14 @@ def monstreAttacks():
     rounds.TypeTurn = "💀"
     rounds.length = rounds.length + 1
     randomDMG = random.randint(10, 30)
-    DMG = round(randomDMG + monstre.currentDMG - character.currentDef, 0)
+    DMG = round(randomDMG + monstre.currentDMG - character.currentDef / 2, 0)
     character.currentPV = round(character.currentPV - DMG, 0)
     if character.currentPV <= 0:
-        print(f"\n--------------------------------\n\n\033[91m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :'\033[0m\nVous vous êtes pris \033[91m{DMG}\033[0m DMG\nIl vous n'êtes plus en état de vous battre !")
+        print(f"\n--------------------------------\n\n\033[91m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :'\033[0m\nVous vous êtes pris \033[91m{DMG}\033[0m DMG ({DMG - monstre.currentDMG + character.currentDef} DMG + {monstre.currentDMG} DMG - {character.currentDef / 2} DEF)\nVous n'êtes plus en état de vous battre !")
         print(f"--------------------------------\n\nLe mal a eu raison de vous...\nIl ne lui restait plus que {monstre.currentPV} PV\n")
         reAskGameOver()
     else:
-        print(f"\n--------------------------------\n\n\033[91m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\033[0m\nVous vous êtes pris \033[91m{DMG}\033[0m DMG\nIl vous reste \033[92m{character.currentPV}\033[0m PV !")
+        print(f"\n--------------------------------\n\n\033[91m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\033[0m\nVous vous êtes pris \033[91m{DMG}\033[0m DMG ({DMG - monstre.currentDMG + character.currentDef} DMG + {monstre.currentDMG} DMG - {character.currentDef / 2} DEF)\nIl vous reste \033[92m{character.currentPV}\033[0m PV !")
         askPlayer()
 
 
@@ -285,10 +298,10 @@ def reAsk():
 def launchRoom():
     if character.room % 5 == 0:
         print("\n--------------------------------\n\nDès lors que vous vous approchez de la prochaine salle, vous entendez l'entité poussé un bruit résonnant dans tout le donjon !\nCela signifie que ses soldats ont gagnés en puissance, prenez garde !")
-        monstre.pv = round(monstre.pv + monstre.pv * 35/100, 0)
-        monstre.attack = monstre.attack * 2 + 4
-        monstre.speed = round(monstre.speed + monstre.speed * 50/100, 0)
-        monstre.defence = monstre.defence * 2 + 4
+        monstre.pv = round(monstre.pv + monstre.pv * 15/100, 0)
+        monstre.attack = monstre.attack * 2 + 6
+        monstre.speed = round(monstre.speed + monstre.speed * 20/100, 0)
+        monstre.defence = monstre.defence * 2 + 2
         monstre.lvl = monstre.lvl + 1
         shop()
         character.room = character.room + 1
@@ -310,7 +323,7 @@ def launchRoom():
                     else:
                         monstre.currentSpeed = round((monstre.currentSpeed * 0.5) + monstre.currentSpeed, 0)
                     i = i + 1
-                print(f"--------------------------------\n\n⚠️ Un boss est aparu ! ⚠️\n")
+                print(f"--------------------------------\n\n\033[91m⚠️ Un boss est aparu ! ⚠\033[0m\n")
                 monstre.getStats()
         while monstre.currentPV >= 0 and character.currentPV >= 0:
             if monstre.currentSpeed < character.currentSpeed:
