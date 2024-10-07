@@ -11,17 +11,18 @@ listItemsMythic = []
 
 listRarities = [listItemsCommon, listItemsRare, listItemsEpic, listItemsLegendary, listItemsMythic]
 
+
 class character:
     def __init__(self):
         self.startPV = 100
-        self.startDMG = 5
+        self.startDMG = 100000
         self.startDef = 5
         self.startSpeed = 30
         self.startMana = 100
         self.items = { "PotionSoin": 2, "PotionMana": 2}
-        self.armor = { "name": "Tunique en Cuire", "def": 2}
-        self.boots = { "name": "Bottes en Cuir", "speed": 2 }
-        self.weapon = { "name": "Branche d'Arbre", "dmg": 2 }
+        self.armor = { "name": "Tunique en Cuire", "stat": 2}
+        self.boots = { "name": "Bottes en Cuir", "stat": 2 }
+        self.weapon = { "name": "Branche d'Arbre", "stat": 2 }
         self.exp = 0
         self.limitExp = 50
         self.lvl = 1
@@ -29,9 +30,9 @@ class character:
         self.room = 1
         self.gold = 0
         self.currentPV = self.startPV
-        self.currentDef = self.startDef + self.armor["def"]
-        self.currentSpeed = self.startSpeed + self.boots["speed"]
-        self.currentDMG = self.startDMG + self.weapon["dmg"]
+        self.currentDef = self.startDef + self.armor["stat"]
+        self.currentSpeed = self.startSpeed + self.boots["stat"]
+        self.currentDMG = self.startDMG + self.weapon["stat"]
         
     def getStats(self):
         print(f"Votre personnage a :\n\n- {self.currentPV} PV ({self.startPV} de base)\n- {self.currentDef} DEF ({self.startDef} de base)\n- {self.currentSpeed} SPEED ({self.startSpeed} de base)\n- {self.currentDMG} DMG ({self.startDMG} de base)\n- {self.startMana} de mana")
@@ -99,7 +100,7 @@ class monstres:
         self.boss = False
         chanceBoss = random.randint(1,100)
         
-        if (chanceBoss <= 20) and (character.room > 1):
+        if (chanceBoss <= 100) and (character.room > 1):
             self.boss = True
         
     def getStats(self):
@@ -108,6 +109,20 @@ class monstres:
 
 monstre = monstres()
 
+listRarities = [listItemsCommon, listItemsRare, listItemsEpic, listItemsLegendary, listItemsMythic]
+def rarityPicker():
+    chance = random.randint(1, 100)
+    if 35 <= chance <= 100:
+        return listItemsCommon
+    elif 10 <= chance < 35:
+        return listItemsRare
+    elif 5 < chance < 10:
+        return listItemsEpic
+    elif 1 < chance < 5:
+        return listItemsLegendary
+    elif chance == 1:
+        return listItemsMythic
+ 
 
 def shop():
     rarities=[listRarities[random.randint(0, 2)], listRarities[random.randint(0, 2)], listRarities[random.randint(0, 2)]]
@@ -235,7 +250,7 @@ def characterAttacks():
             nbrPO = nbrPO * 2
             nbrEXP = nbrEXP * 2
         print(f"\n--------------------------------\n\n\033[94m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\033[0m\n{monstre.type} s'est pris \033[91m{DMG}\033[0m DMG ({DMG - character.currentDMG + monstre.currentDef} DMG + {character.currentDMG} DMG - {monstre.currentDef / 2} DEF)\nIl se désintégre sous vous yeux ! (Vous avez reçu {nbrPO} PO et {nbrEXP} points d'exp)\n")
-        character.gold = character.gold + random.randint(100, 300) * monstre.lvl
+        character.gold = character.gold + nbrPO * monstre.lvl
         character.exp = character.exp + nbrEXP * monstre.lvl
         if character.exp >= character.limitExp:
             while character.exp >= character.limitExp:
@@ -249,6 +264,18 @@ def characterAttacks():
                 character.calculateStats()
                 print(f"--------------------------------\n\n🎉 Félicitations !\nVous êtes monté au niveau supérieur ! ({character.lvl - 1} -> {character.lvl} ({character.exp} exp / {character.limitExp} exp)\nVos stats ont été mises à jour !\n")
         print(f"--------------------------------\n\nVous avez triomphé du mal, cependant il vous reste du chemin à parcourir...\n")
+        if monstre.boss==True:
+            rarete=rarityPicker()
+            item=rarete[random.randint(0,len(rarete)-1)]
+            print(item)
+            if item["type"]=="dmg":
+                character.weapon=item
+            if item["type"]=="def":
+                character.armor=item
+            if item["type"]=="speed":
+                character.boots=item
+            print("--------------------------------")
+            print(f"Un coffre apparait dans le fond de la salle, vous l'ouvrez et trouvez {item['name']} ({item['stat']} {item['type']})")
         reAsk()
     else:
         print(f"\n--------------------------------\n\n\033[94m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\033[0m\nLe/La/L' {monstre.type} s'est pris \033[91m{DMG}\033[0m DMG ({DMG - character.currentDMG + monstre.currentDef} DMG + {character.currentDMG} DMG - {monstre.currentDef / 2} DEF)\nIl lui reste \033[92m{monstre.currentPV}\033[0m PV !")
