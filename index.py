@@ -14,7 +14,7 @@ listRarities = [listItemsCommon, listItemsRare, listItemsEpic, listItemsLegendar
 class character:
     def __init__(self):
         self.startPV = 100
-        self.startDMG = 5
+        self.startDMG = 1000000
         self.startDef = 5
         self.startSpeed = 30
         self.startMana = 100
@@ -110,7 +110,13 @@ monstre = monstres()
 
 
 def shop():
-    rarities=[listRarities[random.randint(0, 2)], listRarities[random.randint(0, 2)], listRarities[random.randint(0, 2)]]
+    rarities=[]
+    while len(rarities) != 3:
+        chancesRarities = random.randint(1, 100)
+        if 1 <= chancesRarities <= 25:
+            rarities.append(listRarities[2])
+        else:
+            rarities.append(listRarities[random.randint(0, 1)])
     vente=[rarities[0][random.randint(0,len(rarities[0])-1)],rarities[1][random.randint(0,len(rarities[1])-1)],rarities[1][random.randint(0,len(rarities[2])-1)]]
     character.items["PotionSoin"] = character.items["PotionSoin"] + 2
     character.items["PotionMana"] = character.items["PotionMana"] + 2
@@ -343,7 +349,7 @@ def askTuto():
     tuto = input("tuto ? (y/n) : ")
 
     if tuto == "y":
-        print("Cher joueur, vous aller découvrir un jeux codé grâce au connaissance acquise en spé N.S.I :\n-----------------------\nLe jeux se joue avec la console de Thonny et est uniquement textuel suivez les instructions et profiter du jeu\n----------------------- ")
+        print("Cher joueur, vous aller découvrir un jeux codé grâce aux connaissances acquises en spé N.S.I :\n-----------------------\nLe jeu se joue avec la console de Thonny et est uniquement textuel suivez les instructions et profiter du jeu !\n----------------------- ")
         input("Appuyez sur entrée quand vous êtes prêt !")
         launchGame()
     elif tuto == "n":
