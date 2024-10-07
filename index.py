@@ -14,7 +14,7 @@ listRarities = [listItemsCommon, listItemsRare, listItemsEpic, listItemsLegendar
 class character:
     def __init__(self):
         self.startPV = 100
-        self.startDMG = 5
+        self.startDMG = 1000000
         self.startDef = 5
         self.startSpeed = 30
         self.startMana = 100
@@ -110,7 +110,13 @@ monstre = monstres()
 
 
 def shop():
-    rarities=[listRarities[random.randint(0, 2)], listRarities[random.randint(0, 2)], listRarities[random.randint(0, 2)]]
+    rarities=[]
+    while len(rarities) != 3:
+        chancesRarities = random.randint(1, 100)
+        if 1 <= chancesRarities <= 25:
+            rarities.append(listRarities[2])
+        else:
+            rarities.append(listRarities[random.randint(0, 1)])
     vente=[rarities[0][random.randint(0,len(rarities[0])-1)],rarities[1][random.randint(0,len(rarities[1])-1)],rarities[1][random.randint(0,len(rarities[2])-1)]]
     character.items["PotionSoin"] = character.items["PotionSoin"] + 2
     character.items["PotionMana"] = character.items["PotionMana"] + 2
@@ -198,8 +204,8 @@ def askPlayer():
         time.sleep(3)
         return askPlayer()
     elif question == "2":
-        whichPotion = input(f"\n--------------------------------\n\nQuelle potion voulez-vous utiliser ? (vie/mana)\nVous possédez {character.items['PotionSoin']} potion(s) de soin et {character.items['PotionMana']} potion(s) de mana\nPour retourner en arrière, utiliser return : ")
-        if whichPotion == "vie":
+        whichPotion = input(f"\n--------------------------------\n\nQuelle potion voulez-vous utiliser ? \n\n1:vie\n2:mana\n\nVous possédez {character.items['PotionSoin']} potion(s) de soin et {character.items['PotionMana']} potion(s) de mana\nPour retourner en arrière, utiliser return : ")
+        if whichPotion == "1":
             if character.currentPV == character.startPV:
                 print("\n--------------------------------\n\nVotre vie est déjà pleine !")
                 return askPlayer()
@@ -207,7 +213,7 @@ def askPlayer():
             character.currentPV = character.startPV
             print(f"\n--------------------------------\n\nVous avez récupéré tous vos PV !")
             return askPlayer()
-        elif whichPotion == "mana":
+        elif whichPotion == "2":
             if character.startMana == 100:
                 print("\n--------------------------------\n\nVotre mana est déjà rempli !")
                 return askPlayer()
@@ -343,7 +349,7 @@ def askTuto():
     tuto = input("tuto ? (y/n) : ")
 
     if tuto == "y":
-        print("Cher joueur, vous aller découvrir un jeux codé grâce au connaissance acquise en spé N.S.I :\n-----------------------\nLe jeux se joue avec la console de Thonny et est uniquement textuel suivez les instructions et profiter du jeu\n----------------------- ")
+        print("Cher joueur, vous aller découvrir un jeux codé grâce aux connaissances acquises en spé N.S.I :\n-----------------------\nLe jeu se joue avec la console de Thonny et est uniquement textuel suivez les instructions et profiter du jeu !\n----------------------- ")
         input("Appuyez sur entrée quand vous êtes prêt !")
         launchGame()
     elif tuto == "n":
