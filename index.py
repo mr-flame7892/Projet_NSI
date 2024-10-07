@@ -312,10 +312,10 @@ def launchRoom():
         shop()
         character.room = character.room + 1
     else:
-        print(f"\n--------------------------------\n\nVous vous approchez d'une porte en bois avec le chiffre \"{character.room}\" insrit dessus, vous l'ouvrez et...\nUn/e {monstre.type} apparaît !")
-        rounds.length = 0
         if character.room != 1:
             monstre.resetMonstre()
+        print(f"\n--------------------------------\n\nVous vous approchez d'une porte en bois avec le chiffre \"{character.room}\" insrit dessus, vous l'ouvrez et...\nUn/e {monstre.type} apparaît !")
+        rounds.length = 0
         if monstre.boss == True:
                 i = 0
                 while i <= 1:
