@@ -38,7 +38,7 @@ class character:
         return
     
     def getInventory(self):
-        print(f"Votre personnage a :\n\n- Armure : {self.armor['name']} (+{self.armor['def']} DEF)\n- Bottes : {self.boots['name']} (+{self.boots['speed']} SPEED)\n- Arme : {self.weapon['name']} (+{self.weapon['dmg']} DMG)\n\n- Potion(s) de soin : {self.items['PotionSoin']}\n- Potion(s) de mana : {self.items['PotionMana']}\n\nVous avez {self.gold} PO et vous êtes level {self.lvl} ({self.exp} exp / {self.limitExp} exp)")
+        print(f"Votre personnage a :\n\n- Armure : {self.armor['name']} (+{self.armor['def']} DEF)\n- Bottes : {self.boots['name']} (+{self.boots['speed']} SPEED)\n- Arme : {self.weapon['name']} (+{self.weapon['dmg']} DMG)\n\n- Potion(s) de soin : {self.items['PotionSoin']}\n- Potion(s) de mana : {self.items['PotionMana']}\n\nVous avez {self.gold} PO et vous êtes niveau {self.lvl} ({self.exp} exp / {self.limitExp} exp)")
         return
     
     def calculateStats(self):
@@ -120,7 +120,8 @@ def shop():
     vente=[rarities[0][random.randint(0,len(rarities[0])-1)],rarities[1][random.randint(0,len(rarities[1])-1)],rarities[1][random.randint(0,len(rarities[2])-1)]]
     character.items["PotionSoin"] = character.items["PotionSoin"] + 2
     character.items["PotionMana"] = character.items["PotionMana"] + 2
-    choix = input(f"\n--------------------------------\n\nVous entrez dans une salle dans laquelle le marchand vous donne par gratitude de vos exploits, il vous donne en récompense 2 potions de soins et de mana.\nIl est prêt à vous vendre uniquement 1 de ses 3 items afin de vous aider dans votre quête :\n\n1) {vente[0]['name']} (+{vente[0]['stat']} {vente[0]['type']} prix : {vente[0]['prix']} PO)\n2) {vente[1]['name']} (+{vente[1]['stat']} {vente[1]['type']} prix : {vente[1]['prix']} PO)\n3) {vente[2]['name']} (+{vente[2]['stat']} {vente[2]['type']} prix : {vente[2]['prix']} PO)\n\nVous possédez {character.gold} PO (écrivez le numéro de l'item que vous souhaitez acheter ou bien écrivez \"pass\" pour passer à la prochaine salle): ")
+    choix = input(f"\n--------------------------------\n\nVous entrez dans une salle dans laquelle un marchand impressionné par vos exploits vous donne en récompense 2 potions de soins et 2 potions de mana.\nIl est prêt à vous vendre 1 de ses 3 items afin de vous aider dans votre quête :\n\n1) {vente[0]['name']} (+{vente[0]['stat']} {vente[0]['type']} prix : {vente[0]['prix']} PO)\n2) {vente[1]['name']} (+{vente[1]['stat']} {vente[1]['type']} prix : {vente[1]['prix']} PO)\n3) {vente[2]['name']} (+{vente[2]['stat']} {vente[2]['type']} prix : {vente[2]['prix']} PO)\n\nVous possédez {character.gold} PO (écrivez le numéro de l'item que vous souhaitez acheter ou bien écrivez \"pass\" pour passer à la prochaine salle): ")
+    time.sleep(4)
     if choix == '1':
         item = vente[0]
         if character.gold >= item['prix']:
@@ -135,6 +136,7 @@ def shop():
                 character.boots["speed"] = item["stat"]
         else:
             print("\n--------------------------------\n\nVous n'avez pas assez de PO !\n--------------------------------")
+            time.sleep(1)
             return shop()
     elif choix == "2":
         item = vente[1]
@@ -150,6 +152,7 @@ def shop():
                 character.boots["speed"] = item["stat"]
         else:
             print("\n--------------------------------\n\nVous n'avez pas assez de PO !\n--------------------------------")
+            time.sleep(1)
             return shop()
     elif choix == "3":
         item = vente[2]
