@@ -241,7 +241,7 @@ def characterAttacks():
             nbrPO = nbrPO * 2
             nbrEXP = nbrEXP * 2
         print(f"\n--------------------------------\n\n\033[94m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\033[0m\n{monstre.type} s'est pris \033[91m{DMG}\033[0m DMG ({DMG - character.currentDMG + monstre.currentDef} DMG + {character.currentDMG} DMG - {monstre.currentDef / 2} DEF)\nIl se désintégre sous vous yeux ! (Vous avez reçu {nbrPO} PO et {nbrEXP} points d'exp)\n")
-        character.gold = character.gold + random.randint(100, 300) * monstre.lvl
+        character.gold = character.gold + nbrPO * monstre.lvl
         character.exp = character.exp + nbrEXP * monstre.lvl
         if character.exp >= character.limitExp:
             while character.exp >= character.limitExp:
