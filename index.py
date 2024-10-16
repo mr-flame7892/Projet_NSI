@@ -14,11 +14,11 @@ listRarities = [listItemsCommon, listItemsRare, listItemsEpic, listItemsLegendar
 class character:
     def __init__(self):
         self.startPV = 100
-        self.startDMG = 100000
+        self.startDMG = 5
         self.startDef = 5
         self.startSpeed = 30
         self.startMana = 100
-        self.items = { "PotionSoin": 2, "PotionMana": 2}
+        self.items = { "PotionSoin": 2 }
         self.armor = { "name": "Tunique en Cuire", "stat": 2}
         self.boots = { "name": "Bottes en Cuir", "stat": 2 }
         self.weapon = { "name": "Branche d'Arbre", "stat": 2 }
@@ -38,7 +38,7 @@ class character:
         return
     
     def getInventory(self):
-        print(f"Votre personnage a :\n\n- Armure : {self.armor['name']} (+{self.armor['stat']} DEF)\n- Bottes : {self.boots['name']} (+{self.boots['stat']} SPEED)\n- Arme : {self.weapon['name']} (+{self.weapon['stat']} DMG)\n\n- Potion(s) de soin : {self.items['PotionSoin']}\n- Potion(s) de mana : {self.items['PotionMana']}\n\nVous avez {self.gold} PO et vous êtes level {self.lvl} ({self.exp} exp / {self.limitExp} exp)")
+        print(f"Votre personnage a :\n\n- Armure : {self.armor['name']} (+{self.armor['stat']} DEF)\n- Bottes : {self.boots['name']} (+{self.boots['stat']} SPEED)\n- Arme : {self.weapon['name']} (+{self.weapon['stat']} DMG)\n\n- Potion(s) de soin : {self.items['PotionSoin']}\n\nVous avez {self.gold} PO et vous êtes level {self.lvl} ({self.exp} exp / {self.limitExp} exp)")
         return
     
     def calculateStats(self):
@@ -49,7 +49,7 @@ class character:
         return
     
     def resetCharacter(self):
-        self.items = { "PotionSoin": 2, "PotionMana": 2}
+        self.items = { "PotionSoin": 2 }
         self.armor = { "name": "Tunique en Cuire", "stat": 2}
         self.boots = { "name": "Bottes en Cuir", "stat": 2 }
         self.weapon = { "name": "Branche d'Arbre", "stat": 2 }
@@ -132,8 +132,7 @@ def shop():
             rarities.append(listRarities[randomNumber1])
     vente=[rarities[0][random.randint(0,len(rarities[0])-1)],rarities[1][random.randint(0,len(rarities[1])-1)],rarities[2][random.randint(0,len(rarities[2])-1)]]
     character.items["PotionSoin"] = character.items["PotionSoin"] + 2
-    character.items["PotionMana"] = character.items["PotionMana"] + 2
-    choix = input(f"\n--------------------------------\n\nVous entrez dans une salle dans laquelle le marchand vous donne par gratitude de vos exploits, il vous donne en récompense 2 potions de soins et de mana.\nIl est prêt à vous vendre uniquement 1 de ses 3 items afin de vous aider dans votre quête :\n\n1) {vente[0]['name']} (+{vente[0]['stat']} {vente[0]['type']} prix : {vente[0]['prix']} PO)\n2) {vente[1]['name']} (+{vente[1]['stat']} {vente[1]['type']} prix : {vente[1]['prix']} PO)\n3) {vente[2]['name']} (+{vente[2]['stat']} {vente[2]['type']} prix : {vente[2]['prix']} PO)\n\nVous possédez {character.gold} PO (écrivez le numéro de l'item que vous souhaitez acheter ou bien écrivez \"pass\" pour passer à la prochaine salle): ")
+    choix = input(f"\n--------------------------------\n\nVous entrez dans une salle dans laquelle le marchand vous donne par gratitude de vos exploits, il vous donne en récompense 2 potions de soins.\nIl est prêt à vous vendre uniquement 1 de ses 3 items afin de vous aider dans votre quête :\n\n1) {vente[0]['name']} (+{vente[0]['stat']} {vente[0]['type']} prix : {vente[0]['prix']} PO)\n2) {vente[1]['name']} (+{vente[1]['stat']} {vente[1]['type']} prix : {vente[1]['prix']} PO)\n3) {vente[2]['name']} (+{vente[2]['stat']} {vente[2]['type']} prix : {vente[2]['prix']} PO)\n\nVous possédez {character.gold} PO (écrivez le numéro de l'item que vous souhaitez acheter ou bien écrivez \"pass\" pour passer à la prochaine salle): ")
     if choix == '1':
         item = vente[0]
         if character.gold >= item['prix']:
@@ -217,24 +216,13 @@ def askPlayer():
         time.sleep(3)
         return askPlayer()
     elif question == "2":
-        whichPotion = input(f"\n--------------------------------\n\nQuelle potion voulez-vous utiliser ? \n\n1:vie\n2:mana\n\nVous possédez {character.items['PotionSoin']} potion(s) de soin et {character.items['PotionMana']} potion(s) de mana\nPour retourner en arrière, utiliser return : ")
-        if whichPotion == "1":
-            if character.currentPV == character.startPV:
-                print("\n--------------------------------\n\nVotre vie est déjà pleine !")
-                return askPlayer()
-            character.items["PotionSoin"] = character.items["PotionSoin"] - 1
-            character.currentPV = character.startPV
-            print(f"\n--------------------------------\n\nVous avez récupéré tous vos PV !")
+        if character.currentPV == character.startPV:
+            print("\n--------------------------------\n\nVotre vie est déjà pleine !")
             return askPlayer()
-        elif whichPotion == "2":
-            if character.startMana == 100:
-                print("\n--------------------------------\n\nVotre mana est déjà rempli !")
-                return askPlayer()
-            character.items["PotionMana"] = character.items["PotionMana"] - 1
-            gainedMana = 100 - character.startMana
-            character.startMana = character.startMana + gainedMana
-            print(f"\n--------------------------------\n\nVous avez récupéré tous votre mana !")
-            return askPlayer()
+        character.items["PotionSoin"] = character.items["PotionSoin"] - 1
+        character.currentPV = character.startPV
+        print(f"\n--------------------------------\n\nVous avez récupéré tous vos PV !")
+        return askPlayer()
     else:
         return askPlayer()
         
