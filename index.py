@@ -25,7 +25,6 @@ class character:
         self.exp = 0
         self.limitExp = 50
         self.lvl = 1
-        self.chests = 0
         self.room = 1
         self.gold = 0
         self.currentPV = self.startPV
@@ -56,7 +55,6 @@ class character:
         self.exp = 0
         self.limitExp = 50
         self.lvl = 1
-        self.chests = 0
         self.room = 1
         self.gold = 0
         self.calculateStats()
