@@ -14,14 +14,14 @@ listRarities = [listItemsCommon, listItemsRare, listItemsEpic, listItemsLegendar
 class character:
     def __init__(self):
         self.startPV = 100
-        self.startDMG = 5
+        self.startDMG = 100000
         self.startDef = 5
         self.startSpeed = 30
         self.startMana = 100
         self.items = { "PotionSoin": 2, "PotionMana": 2}
-        self.armor = { "name": "Tunique en Cuire", "def": 2}
-        self.boots = { "name": "Bottes en Cuir", "speed": 2 }
-        self.weapon = { "name": "Branche d'Arbre", "dmg": 2 }
+        self.armor = { "name": "Tunique en Cuire", "stat": 2}
+        self.boots = { "name": "Bottes en Cuir", "stat": 2 }
+        self.weapon = { "name": "Branche d'Arbre", "stat": 2 }
         self.exp = 0
         self.limitExp = 50
         self.lvl = 1
@@ -29,30 +29,30 @@ class character:
         self.room = 1
         self.gold = 0
         self.currentPV = self.startPV
-        self.currentDef = self.startDef + self.armor["def"]
-        self.currentSpeed = self.startSpeed + self.boots["speed"]
-        self.currentDMG = self.startDMG + self.weapon["dmg"]
+        self.currentDef = self.startDef + self.armor["stat"]
+        self.currentSpeed = self.startSpeed + self.boots["stat"]
+        self.currentDMG = self.startDMG + self.weapon["stat"]
         
     def getStats(self):
         print(f"Votre personnage a :\n\n- {self.currentPV} PV ({self.startPV} de base)\n- {self.currentDef} DEF ({self.startDef} de base)\n- {self.currentSpeed} SPEED ({self.startSpeed} de base)\n- {self.currentDMG} DMG ({self.startDMG} de base)\n- {self.startMana} de mana")
         return
     
     def getInventory(self):
-        print(f"Votre personnage a :\n\n- Armure : {self.armor['name']} (+{self.armor['def']} DEF)\n- Bottes : {self.boots['name']} (+{self.boots['speed']} SPEED)\n- Arme : {self.weapon['name']} (+{self.weapon['dmg']} DMG)\n\n- Potion(s) de soin : {self.items['PotionSoin']}\n- Potion(s) de mana : {self.items['PotionMana']}\n\nVous avez {self.gold} PO et vous êtes level {self.lvl} ({self.exp} exp / {self.limitExp} exp)")
+        print(f"Votre personnage a :\n\n- Armure : {self.armor['name']} (+{self.armor['stat']} DEF)\n- Bottes : {self.boots['name']} (+{self.boots['stat']} SPEED)\n- Arme : {self.weapon['name']} (+{self.weapon['stat']} DMG)\n\n- Potion(s) de soin : {self.items['PotionSoin']}\n- Potion(s) de mana : {self.items['PotionMana']}\n\nVous avez {self.gold} PO et vous êtes level {self.lvl} ({self.exp} exp / {self.limitExp} exp)")
         return
     
     def calculateStats(self):
         self.currentPV = self.startPV
-        self.currentDef = self.startDef + self.armor["def"]
-        self.currentSpeed = self.startSpeed + self.boots["speed"]
-        self.currentDMG = self.startDMG + self.weapon["dmg"]
+        self.currentDef = self.startDef + self.armor["stat"]
+        self.currentSpeed = self.startSpeed + self.boots["stat"]
+        self.currentDMG = self.startDMG + self.weapon["stat"]
         return
     
     def resetCharacter(self):
         self.items = { "PotionSoin": 2, "PotionMana": 2}
-        self.armor = { "name": "Tunique en Cuire", "def": 2}
-        self.boots = { "name": "Bottes en Cuir", "speed": 2 }
-        self.weapon = { "name": "Branche d'Arbre", "dmg": 2 }
+        self.armor = { "name": "Tunique en Cuire", "stat": 2}
+        self.boots = { "name": "Bottes en Cuir", "stat": 2 }
+        self.weapon = { "name": "Branche d'Arbre", "stat": 2 }
         self.exp = 0
         self.limitExp = 50
         self.lvl = 1
@@ -64,7 +64,7 @@ class character:
 
 character = character()
 
-listeMonstre=["Un Zombie","Un Squelette","Un Brigand","Une Araignée","Un Goblin","Un Loup-Garou","Une Sirène maléfique","Un Gnome maléfique"]
+listeMonstre=["Zombie","Squelette","Brigand","Araignée","Goblin","Loup-Garou","Sirène maléfique","Gnome maléfique"]
 
 class monstres:
     def __init__(self):
@@ -99,7 +99,7 @@ class monstres:
         self.boss = False
         chanceBoss = random.randint(1,100)
         
-        if (chanceBoss <= 20) and (character.room > 1):
+        if (chanceBoss <= 100) and (character.room > 1):
             self.boss = True
         
     def getStats(self):
@@ -128,8 +128,9 @@ def shop():
         if 1 <= chancesRarities <= 25:
             rarities.append(listRarities[2])
         else:
-            rarities.append(listRarities[random.randint(0, 1)])
-    vente=[rarities[0][random.randint(0,len(rarities[0])-1)],rarities[1][random.randint(0,len(rarities[1])-1)],rarities[1][random.randint(0,len(rarities[2])-1)]]
+            randomNumber1 = random.randint(0, 1)
+            rarities.append(listRarities[randomNumber1])
+    vente=[rarities[0][random.randint(0,len(rarities[0])-1)],rarities[1][random.randint(0,len(rarities[1])-1)],rarities[2][random.randint(0,len(rarities[2])-1)]]
     character.items["PotionSoin"] = character.items["PotionSoin"] + 2
     character.items["PotionMana"] = character.items["PotionMana"] + 2
     choix = input(f"\n--------------------------------\n\nVous entrez dans une salle dans laquelle le marchand vous donne par gratitude de vos exploits, il vous donne en récompense 2 potions de soins et de mana.\nIl est prêt à vous vendre uniquement 1 de ses 3 items afin de vous aider dans votre quête :\n\n1) {vente[0]['name']} (+{vente[0]['stat']} {vente[0]['type']} prix : {vente[0]['prix']} PO)\n2) {vente[1]['name']} (+{vente[1]['stat']} {vente[1]['type']} prix : {vente[1]['prix']} PO)\n3) {vente[2]['name']} (+{vente[2]['stat']} {vente[2]['type']} prix : {vente[2]['prix']} PO)\n\nVous possédez {character.gold} PO (écrivez le numéro de l'item que vous souhaitez acheter ou bien écrivez \"pass\" pour passer à la prochaine salle): ")
@@ -196,7 +197,7 @@ class tour:
 rounds = tour()
         
 def askPlayer():
-    question = input("\n--------------------------------\n\nQuelle action voulez-vous réaliser ?\n\n1) attaque\n2) potion\n3) stats\n4) monstre\n5) inventaire\n\nVeuillez indiquer le numéro de l'action que vous souhaitez réaliser : ")
+    question = input("\n--------------------------------\n\nQuelle action voulez-vous réaliser ?\n\n1) attaque\n2) potion\n3) stats\n4) monstre\n5) inventaire\n\nVeuillez marquer le numéro de l'action que vous souhaitez réaliser : ")
     
     if question == "5":
         print("\n--------------------------------\n")
@@ -216,7 +217,7 @@ def askPlayer():
         time.sleep(3)
         return askPlayer()
     elif question == "2":
-        whichPotion = input(f"\n--------------------------------\n\nQuelle potion voulez-vous utiliser ? \nLes potions remplissent entièrement votre vie ou votre mana\n1:vie\n2:mana\n\nVous possédez {character.items['PotionSoin']} potion(s) de soin et {character.items['PotionMana']} potion(s) de mana\nPour retourner en arrière, appuyez sur Entrée : ")
+        whichPotion = input(f"\n--------------------------------\n\nQuelle potion voulez-vous utiliser ? \n\n1:vie\n2:mana\n\nVous possédez {character.items['PotionSoin']} potion(s) de soin et {character.items['PotionMana']} potion(s) de mana\nPour retourner en arrière, utiliser return : ")
         if whichPotion == "1":
             if character.currentPV == character.startPV:
                 print("\n--------------------------------\n\nVotre vie est déjà pleine !")
@@ -270,7 +271,6 @@ def characterAttacks():
         if monstre.boss==True:
             rarete=rarityPicker()
             item=rarete[random.randint(0,len(rarete)-1)]
-            print(item)
             if item["type"]=="dmg":
                 character.weapon=item
             if item["type"]=="def":
@@ -278,7 +278,7 @@ def characterAttacks():
             if item["type"]=="speed":
                 character.boots=item
             print("--------------------------------")
-            print(f"Un coffre apparait dans le fond de la salle, vous l'ouvrez et trouvez {item['name']} ({item['stat']} {item['type']})")
+            print(f"\nUn coffre apparait dans le fond de la salle, vous l'ouvrez et trouvez {item['name']} ({item['stat']} {item['type'].upper()})\n")
         reAsk()
     else:
         print(f"\n--------------------------------\n\n\033[94m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\033[0m\nLe/La/L' {monstre.type} s'est pris \033[91m{DMG}\033[0m DMG ({DMG - character.currentDMG + monstre.currentDef} DMG + {character.currentDMG} DMG - {monstre.currentDef / 2} DEF)\nIl lui reste \033[92m{monstre.currentPV}\033[0m PV !")
@@ -338,7 +338,7 @@ def launchRoom():
     else:
         if character.room != 1:
             monstre.resetMonstre()
-        print(f"\n--------------------------------\n\nVous vous approchez d'une porte en bois avec le chiffre \"{character.room}\" insrit dessus, vous l'ouvrez et...\n{monstre.type} apparaît !")
+        print(f"\n--------------------------------\n\nVous vous approchez d'une porte en bois avec le chiffre \"{character.room}\" insrit dessus, vous l'ouvrez et...\nUn/e {monstre.type} apparaît !")
         rounds.length = 0
         if monstre.boss == True:
                 i = 0
