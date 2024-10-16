@@ -216,7 +216,7 @@ def askPlayer():
         time.sleep(3)
         return askPlayer()
     elif question == "2":
-        whichPotion = input(f"\n--------------------------------\n\nQuelle potion voulez-vous utiliser ? \n\n1:vie\n2:mana\n\nVous possédez {character.items['PotionSoin']} potion(s) de soin et {character.items['PotionMana']} potion(s) de mana\nPour retourner en arrière, utiliser return : ")
+        whichPotion = input(f"\n--------------------------------\n\nQuelle potion voulez-vous utiliser ? \nLes potions remplissent entièrement votre vie ou votre mana\n1:vie\n2:mana\n\nVous possédez {character.items['PotionSoin']} potion(s) de soin et {character.items['PotionMana']} potion(s) de mana\nPour retourner en arrière, utiliser return : ")
         if whichPotion == "1":
             if character.currentPV == character.startPV:
                 print("\n--------------------------------\n\nVotre vie est déjà pleine !")
