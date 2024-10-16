@@ -34,10 +34,12 @@ class character:
         
     def getStats(self):
         print(f"Votre personnage a :\n\n- {self.currentPV} PV ({self.startPV} de base)\n- {self.currentDef} DEF ({self.startDef} de base)\n- {self.currentSpeed} SPEED ({self.startSpeed} de base)\n- {self.currentDMG} DMG ({self.startDMG} de base)\n- {self.startMana} de mana")
+        input()
         return
     
     def getInventory(self):
         print(f"Votre personnage a :\n\n- Armure : {self.armor['name']} (+{self.armor['stat']} DEF)\n- Bottes : {self.boots['name']} (+{self.boots['stat']} SPEED)\n- Arme : {self.weapon['name']} (+{self.weapon['stat']} DMG)\n\n- Potion(s) de soin : {self.items['PotionSoin']}\n\nVous avez {self.gold} PO et vous êtes level {self.lvl} ({self.exp} exp / {self.limitExp} exp)")
+        input()
         return
     
     def calculateStats(self):
