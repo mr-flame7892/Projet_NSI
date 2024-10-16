@@ -25,6 +25,7 @@ class character:
         self.exp = 0
         self.limitExp = 50
         self.lvl = 1
+        self.chests = 0
         self.room = 1
         self.gold = 0
         self.currentPV = self.startPV
@@ -55,6 +56,7 @@ class character:
         self.exp = 0
         self.limitExp = 50
         self.lvl = 1
+        self.chests = 0
         self.room = 1
         self.gold = 0
         self.calculateStats()
@@ -62,7 +64,7 @@ class character:
 
 character = character()
 
-listeMonstre=["Un Zombie","Un Squelette","Un Brigand","Une Araignée","Un Goblin","Un Loup-Garou","Une Sirène maléfique","Un Gnome maléfique"]
+listeMonstre=["Zombie","Squelette","Brigand","Araignée","Goblin","Loup-Garou","Sirène maléfique","Gnome maléfique"]
 
 class monstres:
     def __init__(self):
@@ -97,7 +99,7 @@ class monstres:
         self.boss = False
         chanceBoss = random.randint(1,100)
         
-        if (chanceBoss <= 25) and (character.room > 1):
+        if (chanceBoss <= 100) and (character.room > 1):
             self.boss = True
         
     def getStats(self):
@@ -130,7 +132,7 @@ def shop():
             rarities.append(listRarities[randomNumber1])
     vente=[rarities[0][random.randint(0,len(rarities[0])-1)],rarities[1][random.randint(0,len(rarities[1])-1)],rarities[2][random.randint(0,len(rarities[2])-1)]]
     character.items["PotionSoin"] = character.items["PotionSoin"] + 2
-    choix = input(f"\n--------------------------------\n\nVous entrez dans une salle dans laquelle le marchand vous donne par gratitude de vos exploits, il vous donne en récompense 2 potions de soins.\nIl est prêt à vous vendre uniquement 1 de ses 3 items afin de vous aider dans votre quête :\n\n1) {vente[0]['name']} (+{vente[0]['stat']} {vente[0]['type']} prix : {vente[0]['prix']} PO)\n2) {vente[1]['name']} (+{vente[1]['stat']} {vente[1]['type']} prix : {vente[1]['prix']} PO)\n3) {vente[2]['name']} (+{vente[2]['stat']} {vente[2]['type']} prix : {vente[2]['prix']} PO)\n\nVous possédez {character.gold} PO (écrivez le numéro de l'item que vous souhaitez acheter ou bien écrivez \"pass\" pour passer à la prochaine salle): ")
+    choix = input(f"\n--------------------------------\n\nVous entrez dans une salle dans laquelle un marchand nommé M.Barret, en récompense de vos exploits, il vous donne 2 potions de soins.\nIl est prêt à vous vendre uniquement 1 de ses 3 items afin de vous aider dans votre quête :\n\n1) {vente[0]['name']} (+{vente[0]['stat']} {vente[0]['type']} prix : {vente[0]['prix']} PO)\n2) {vente[1]['name']} (+{vente[1]['stat']} {vente[1]['type']} prix : {vente[1]['prix']} PO)\n3) {vente[2]['name']} (+{vente[2]['stat']} {vente[2]['type']} prix : {vente[2]['prix']} PO)\n\nVous possédez {character.gold} PO (écrivez le numéro de l'item que vous souhaitez acheter ou bien écrivez \"pass\" pour passer à la prochaine salle): ")
     if choix == '1':
         item = vente[0]
         if character.gold >= item['prix']:
@@ -324,7 +326,7 @@ def launchRoom():
     else:
         if character.room != 1:
             monstre.resetMonstre()
-        print(f"\n--------------------------------\n\nVous vous approchez d'une porte en bois avec le chiffre \"{character.room}\" insrit dessus, vous l'ouvrez et...\n{monstre.type} apparaît !")
+        print(f"\n--------------------------------\n\nVous vous approchez d'une porte en bois avec le chiffre \"{character.room}\" insrit dessus, vous l'ouvrez et...\nUn/e {monstre.type} apparaît !")
         rounds.length = 0
         if monstre.boss == True:
                 i = 0
@@ -368,3 +370,4 @@ def askTuto():
         askTuto()
 
 askTuto()
+
