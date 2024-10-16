@@ -108,6 +108,18 @@ class monstres:
 
 monstre = monstres()
 
+def rarityPicker():
+    chance = random.randint(1, 100)
+    if 35 <= chance <= 100:
+        return listItemsCommon
+    elif 10 <= chance < 35:
+        return listItemsRare
+    elif 5 < chance < 10:
+        return listItemsEpic
+    elif 1 < chance < 5:
+        return listItemsLegendary
+    elif chance == 1:
+        return listItemsMythic
 
 def shop():
     rarities=[]
@@ -255,6 +267,18 @@ def characterAttacks():
                 character.calculateStats()
                 print(f"--------------------------------\n\n🎉 Félicitations !\nVous êtes monté au niveau supérieur ! ({character.lvl - 1} -> {character.lvl} ({character.exp} exp / {character.limitExp} exp)\nVos stats ont été mises à jour !\n")
         print(f"--------------------------------\n\nVous avez triomphé du mal, cependant il vous reste du chemin à parcourir...\n")
+        if monstre.boss==True:
+            rarete=rarityPicker()
+            item=rarete[random.randint(0,len(rarete)-1)]
+            print(item)
+            if item["type"]=="dmg":
+                character.weapon=item
+            if item["type"]=="def":
+                character.armor=item
+            if item["type"]=="speed":
+                character.boots=item
+            print("--------------------------------")
+            print(f"Un coffre apparait dans le fond de la salle, vous l'ouvrez et trouvez {item['name']} ({item['stat']} {item['type']})")
         reAsk()
     else:
         print(f"\n--------------------------------\n\n\033[94m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\033[0m\nLe/La/L' {monstre.type} s'est pris \033[91m{DMG}\033[0m DMG ({DMG - character.currentDMG + monstre.currentDef} DMG + {character.currentDMG} DMG - {monstre.currentDef / 2} DEF)\nIl lui reste \033[92m{monstre.currentPV}\033[0m PV !")
