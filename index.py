@@ -62,7 +62,7 @@ class character:
 
 character = character()
 
-listeMonstre=["Zombie","Squelette","Brigand","Araignée","Goblin","Loup-Garou","Sirène maléfique","Gnome maléfique"]
+listeMonstre=["Un Zombie","Un Squelette","Un Brigand","Une Araignée","Un Goblin","Un Loup-Garou","Une Sirène maléfique","Un Gnome maléfique"]
 
 class monstres:
     def __init__(self):
@@ -324,7 +324,7 @@ def launchRoom():
     else:
         if character.room != 1:
             monstre.resetMonstre()
-        print(f"\n--------------------------------\n\nVous vous approchez d'une porte en bois avec le chiffre \"{character.room}\" insrit dessus, vous l'ouvrez et...\nUn/e {monstre.type} apparaît !")
+        print(f"\n--------------------------------\n\nVous vous approchez d'une porte en bois avec le chiffre \"{character.room}\" insrit dessus, vous l'ouvrez et...\n{monstre.type} apparaît !")
         rounds.length = 0
         if monstre.boss == True:
                 i = 0
