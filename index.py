@@ -196,7 +196,7 @@ class tour:
 rounds = tour()
         
 def askPlayer():
-    question = input("\n--------------------------------\n\nQuelle action voulez-vous réaliser ?\n\n1) attaque\n2) potion\n3) stats\n4) monstre\n5) inventaire\n\nVeuillez marquer le numéro de l'action que vous souhaitez réaliser : ")
+    question = input("\n--------------------------------\n\nQuelle action voulez-vous réaliser ?\n\n1) attaque\n2) potion\n3) stats\n4) monstre\n5) inventaire\n\nVeuillez indiquer le numéro de l'action que vous souhaitez réaliser : ")
     
     if question == "5":
         print("\n--------------------------------\n")
@@ -216,7 +216,7 @@ def askPlayer():
         time.sleep(3)
         return askPlayer()
     elif question == "2":
-        whichPotion = input(f"\n--------------------------------\n\nQuelle potion voulez-vous utiliser ? \nLes potions remplissent entièrement votre vie ou votre mana\n1:vie\n2:mana\n\nVous possédez {character.items['PotionSoin']} potion(s) de soin et {character.items['PotionMana']} potion(s) de mana\nPour retourner en arrière, utiliser return : ")
+        whichPotion = input(f"\n--------------------------------\n\nQuelle potion voulez-vous utiliser ? \nLes potions remplissent entièrement votre vie ou votre mana\n1:vie\n2:mana\n\nVous possédez {character.items['PotionSoin']} potion(s) de soin et {character.items['PotionMana']} potion(s) de mana\nPour retourner en arrière, appuyez sur Entrée : ")
         if whichPotion == "1":
             if character.currentPV == character.startPV:
                 print("\n--------------------------------\n\nVotre vie est déjà pleine !")
