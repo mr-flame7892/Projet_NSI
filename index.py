@@ -328,6 +328,7 @@ def launchRoom():
         if character.room != 1:
             monstre.resetMonstre()
         print(f"\n--------------------------------\n\nVous vous approchez d'une porte en bois avec le chiffre \"{character.room}\" insrit dessus, vous l'ouvrez et...\nUn/e {monstre.type} apparaît !")
+        time.sleep(2)
         rounds.length = 0
         if monstre.boss == True:
                 i = 0
@@ -355,6 +356,7 @@ def launchGame():
     monstre.resetMonstre()
     character.resetCharacter()
     print("-----------------------\n \nVous vous réveillez sans aucun souvenir de la veille dans un recoin sombre d'une pièce froide et lugubre.")
+    time.sleep(3)
     while game == True:
         launchRoom()
                   
