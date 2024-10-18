@@ -64,7 +64,7 @@ class character:
 
 character = character()
 
-listeMonstre=["Zombie","Squelette","Brigand","Araignée","Goblin","Loup-Garou","Sirène maléfique","Gnome maléfique"]
+listeMonstre=["Un Zombie","Un Squelette","Un Brigand","Une Araignée","Un Goblin","Un Loup-Garou","Une Sirène maléfique","Un Gnome maléfique"]
 
 class monstres:
     def __init__(self):
@@ -218,6 +218,7 @@ def askPlayer():
     elif question == "2":
         if character.currentPV == character.startPV:
             print("\n--------------------------------\n\nVotre vie est déjà pleine !")
+            time.sleep(3)
             return askPlayer()
         character.items["PotionSoin"] = character.items["PotionSoin"] - 1
         character.currentPV = character.startPV
@@ -256,7 +257,9 @@ def characterAttacks():
                 character.startSpeed = character.startSpeed + 2 * character.lvl
                 character.calculateStats()
                 print(f"--------------------------------\n\n🎉 Félicitations !\nVous êtes monté au niveau supérieur ! ({character.lvl - 1} -> {character.lvl} ({character.exp} exp / {character.limitExp} exp)\nVos stats ont été mises à jour !\n")
+                input() 
         print(f"--------------------------------\n\nVous avez triomphé du mal, cependant il vous reste du chemin à parcourir...\n")
+        input() 
         if monstre.boss==True:
             rarete=rarityPicker()
             item=rarete[random.randint(0,len(rarete)-1)]
@@ -270,7 +273,7 @@ def characterAttacks():
             print(f"\nUn coffre apparait dans le fond de la salle, vous l'ouvrez et trouvez {item['name']} ({item['stat']} {item['type'].upper()})\n")
         reAsk()
     else:
-        print(f"\n--------------------------------\n\n\033[94m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\033[0m\nLe/La/L' {monstre.type} s'est pris \033[91m{DMG}\033[0m DMG ({DMG - character.currentDMG + monstre.currentDef} DMG + {character.currentDMG} DMG - {monstre.currentDef / 2} DEF)\nIl lui reste \033[92m{monstre.currentPV}\033[0m PV !")
+        print(f"\n--------------------------------\n\n\033[94m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\033[0m\n{monstre.type} s'est pris \033[91m{DMG}\033[0m DMG ({DMG - character.currentDMG + monstre.currentDef} DMG + {character.currentDMG} DMG - {monstre.currentDef / 2} DEF)\nIl lui reste \033[92m{monstre.currentPV}\033[0m PV !")
         time.sleep(1)
         monstreAttacks()
 
