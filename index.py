@@ -291,6 +291,7 @@ def monstreAttacks():
         reAskGameOver()
     else:
         print(f"\n--------------------------------\n\n\033[91m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\033[0m\nVous vous êtes pris \033[91m{DMG}\033[0m Dégats\nIl vous reste \033[92m{character.currentPV}\033[0m PV !")
+        time.sleep(1)
         askPlayer()
 
 
