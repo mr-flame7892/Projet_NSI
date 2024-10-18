@@ -201,19 +201,16 @@ def askPlayer():
     if question == "5":
         print("\n--------------------------------\n")
         character.getInventory()
-        time.sleep(3)
         return askPlayer()
     elif question == "1":
         return characterAttacks()
     elif question == "4":
         print("\n--------------------------------\n")
         monstre.getStats()
-        time.sleep(3)
         return askPlayer()
     elif question == "3":
         print("\n--------------------------------\n")
         character.getStats()
-        time.sleep(3)
         return askPlayer()
     elif question == "2":
         if character.currentPV == character.startPV:
