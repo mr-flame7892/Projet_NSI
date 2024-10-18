@@ -273,7 +273,7 @@ def characterAttacks():
             print(f"\nUn coffre apparait dans le fond de la salle, vous l'ouvrez et trouvez {item['name']} ({item['stat']} {item['type'].upper()})\n")
         reAsk()
     else:
-        print(f"\n--------------------------------\n\n\033[94m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\033[0m\n{monstre.type} s'est pris \033[91m{DMG}\033[0m DMG ({DMG - character.currentDMG + monstre.currentDef} DMG + {character.currentDMG} DMG - {monstre.currentDef / 2} DEF)\nIl lui reste \033[92m{monstre.currentPV}\033[0m PV !")
+        print(f"\n--------------------------------\n\n\033[94m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\033[0m\n{monstre.type} s'est pris \033[91m{DMG}\033[0m Dégats\nIl lui reste \033[92m{monstre.currentPV}\033[0m PV !")
         time.sleep(1)
         monstreAttacks()
 
