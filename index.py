@@ -222,6 +222,7 @@ def askPlayer():
         character.items["PotionSoin"] = character.items["PotionSoin"] - 1
         character.currentPV = character.startPV
         print(f"\n--------------------------------\n\nVous avez récupéré tous vos PV !")
+        time.sleep(3)
         return askPlayer()
     else:
         return askPlayer()
