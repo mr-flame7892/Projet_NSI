@@ -74,7 +74,7 @@ class monstres:
     def __init__(self):
         self.type=listeMonstre[random.randint(0,len(listeMonstre)-1)]
         self.lvl = 1
-        self.pv = 95
+        self.pv = 105
         self.attack = 4
         self.defence = 6
         self.speed = 25
