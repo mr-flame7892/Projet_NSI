@@ -242,7 +242,8 @@ def characterAttacks():
         if monstre.boss == True:
             nbrPO = nbrPO * 2
             nbrEXP = nbrEXP * 2
-        print(f"\n--------------------------------\n\n\033[94m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\033[0m\n{monstre.type} s'est pris \033[91m{DMG}\033[0m DMG ({DMG - character.currentDMG + monstre.currentDef} DMG + {character.currentDMG} DMG - {monstre.currentDef / 2} DEF)\nIl se désintégre sous vous yeux ! (Vous avez reçu {nbrPO} PO et {nbrEXP} points d'exp)\n")
+        print(f"\n--------------------------------\n\n\033[94m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\033[0m\n{monstre.type} s'est pris \033[91m{DMG}\033[0m Dégats\nIl se désintégre sous vous yeux ! (Vous avez reçu {nbrPO} PO et {nbrEXP} points d'exp)\n")
+        time.sleep(1)
         character.gold = character.gold + nbrPO * monstre.lvl
         character.exp = character.exp + nbrEXP * monstre.lvl
         if character.exp >= character.limitExp:
@@ -284,11 +285,12 @@ def monstreAttacks():
     DMG = round(randomDMG + monstre.currentDMG - character.currentDef / 2, 0)
     character.currentPV = round(character.currentPV - DMG, 0)
     if character.currentPV <= 0:
-        print(f"\n--------------------------------\n\n\033[91m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :'\033[0m\nVous vous êtes pris \033[91m{DMG}\033[0m DMG ({DMG - monstre.currentDMG + character.currentDef} DMG + {monstre.currentDMG} DMG - {character.currentDef / 2} DEF)\nVous n'êtes plus en état de vous battre !")
+        print(f"\n--------------------------------\n\n\033[91m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :'\033[0m\nVous vous êtes pris \033[91m{DMG}\033[0m Dégats \nVous n'êtes plus en état de vous battre !")
         print(f"--------------------------------\n\nLe mal a eu raison de vous...\nIl ne lui restait plus que {monstre.currentPV} PV\n")
+        time.sleep(1)
         reAskGameOver()
     else:
-        print(f"\n--------------------------------\n\n\033[91m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\033[0m\nVous vous êtes pris \033[91m{DMG}\033[0m DMG ({DMG - monstre.currentDMG + character.currentDef} DMG + {monstre.currentDMG} DMG - {character.currentDef / 2} DEF)\nIl vous reste \033[92m{character.currentPV}\033[0m PV !")
+        print(f"\n--------------------------------\n\n\033[91m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\033[0m\nVous vous êtes pris \033[91m{DMG}\033[0m Dégats\nIl vous reste \033[92m{character.currentPV}\033[0m PV !")
         askPlayer()
 
 
