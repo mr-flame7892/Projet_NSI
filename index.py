@@ -118,9 +118,9 @@ def rarityPicker():
         return listItemsCommon
     elif 10 <= chance < 35:
         return listItemsRare
-    elif 5 < chance < 10:
+    elif 5 <= chance < 10:
         return listItemsEpic
-    elif 1 < chance < 5:
+    elif 1 <= chance < 5:
         return listItemsLegendary
     elif chance == 1:
         return listItemsMythic
