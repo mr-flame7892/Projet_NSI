@@ -333,7 +333,7 @@ def launchRoom():
     else:
         if character.room != 1:
             monstre.resetMonstre()
-        print(f"\n--------------------------------\n\nVous vous approchez d'une porte en bois avec le chiffre \"{character.room}\" insrit dessus, vous l'ouvrez et...\nUn/e {monstre.type} apparaît !")
+        print(f"\n--------------------------------\n\nVous vous approchez d'une porte en bois avec le chiffre \"{character.room}\" insrit dessus, vous l'ouvrez et...\n {monstre.type} apparaît !")
         time.sleep(2)
         rounds.length = 0
         if monstre.boss == True:
