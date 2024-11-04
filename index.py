@@ -259,9 +259,8 @@ def characterAttacks():
                 character.startSpeed = character.startSpeed + 2 * character.lvl
                 character.calculateStats()
                 print(f"--------------------------------\n\n🎉 Félicitations !\nVous êtes monté au niveau supérieur ! ({character.lvl - 1} -> {character.lvl} ({character.exp} exp / {character.limitExp} exp)\nVos stats ont été mises à jour !\n")
-                input() 
         print(f"--------------------------------\n\nVous avez triomphé du mal, cependant il vous reste du chemin à parcourir...\n")
-        input() 
+        input("--------------------------------\n\nAppuyez sur entrée quand vous êtes prêt à passer à la prochaine salle !")
         if monstre.boss==True:
             rarete=rarityPicker()
             item=rarete[random.randint(0,len(rarete)-1)]
@@ -369,7 +368,7 @@ def launchGame():
                   
 def askTuto():
 
-        print(("""\
+    print(("""\
  _____                   _             _    _   _             _            
 |_   _|                 (_)           | |  | | | |           | |           
   | | ___ _ __ _ __ ___  _ _ __   __ _| |  | |_| |_   _ _ __ | |_ ___ _ __ 
@@ -392,4 +391,3 @@ def askTuto():
         askTuto()
 
 askTuto()
-
