@@ -253,10 +253,10 @@ def characterAttacks():
                 character.lvl = character.lvl + 1
                 character.exp = character.exp - character.limitExp
                 character.limitExp = character.limitExp + 50
-                character.startPV = character.startPV + 2 * character.lvl
-                character.startDMG = character.startDMG + 2 * character.lvl
-                character.startDef = character.startDef + 2 * character.lvl
-                character.startSpeed = character.startSpeed + 2 * character.lvl
+                character.startPV = character.startPV + 5
+                character.startDMG = character.startDMG + 5
+                character.startDef = character.startDef + 5
+                character.startSpeed = character.startSpeed + 5
                 character.calculateStats()
                 print(f"--------------------------------\n\n🎉 Félicitations !\nVous êtes monté au niveau supérieur ! ({character.lvl - 1} -> {character.lvl} ({character.exp} exp / {character.limitExp} exp)\nVos stats ont été mises à jour !\n")
         print(f"--------------------------------\n\nVous avez triomphé du mal, cependant il vous reste du chemin à parcourir...\n")
