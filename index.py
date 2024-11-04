@@ -379,7 +379,7 @@ def askTuto():
     
     print(f"v{version}\n\n------------------------------------------------------------------------------")
     
-    tuto = input("tuto ? (y/n) : ")
+    tuto = input("Souhaitez-vous accéder au tutoriel ? (y/n) : ")
 
     if tuto == "y":
         print("Cher joueur, vous allez découvrir un jeux codé grâce aux connaissances acquises en spé N.S.I :\n-----------------------\nLe jeu se joue avec la console de Thonny et est uniquement textuel suivez les instructions et profitez du jeu !\n----------------------- ")
