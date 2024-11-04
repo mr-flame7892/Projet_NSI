@@ -37,12 +37,12 @@ class character:
         
     def getStats(self):
         print(f"Votre personnage a :\n\n- {self.currentPV} PV ({self.startPV} de base)\n- {self.currentDef} DEF ({self.startDef} de base)\n- {self.currentSpeed} SPEED ({self.startSpeed} de base)\n- {self.currentDMG} DMG ({self.startDMG} de base)")
-        input()
+        input("--------------------------------\n\nAppuyez sur entrée quand vous êtes prêt...")
         return
     
     def getInventory(self):
         print(f"Votre personnage a :\n\n- Armure : {self.armor['name']} (+{self.armor['stat']} DEF)\n- Bottes : {self.boots['name']} (+{self.boots['stat']} SPEED)\n- Arme : {self.weapon['name']} (+{self.weapon['stat']} DMG)\n\n- Potion(s) de soin : {self.items['PotionSoin']}\n\nVous avez {self.gold} PO et vous êtes level {self.lvl} ({self.exp} exp / {self.limitExp} exp)")
-        input()
+        input("--------------------------------\n\nAppuyez sur entrée quand vous êtes prêt...")
         return
     
     def calculateStats(self):
@@ -260,6 +260,7 @@ def characterAttacks():
                 character.calculateStats()
                 print(f"--------------------------------\n\n🎉 Félicitations !\nVous êtes monté au niveau supérieur ! ({character.lvl - 1} -> {character.lvl} ({character.exp} exp / {character.limitExp} exp)\nVos stats ont été mises à jour !\n")
         print(f"--------------------------------\n\nVous avez triomphé du mal, cependant il vous reste du chemin à parcourir...\n")
+        input("--------------------------------\n\nAppuyez sur entrée quand vous êtes prêt...")
         if monstre.boss==True:
             rarete=rarityPicker()
             item=rarete[random.randint(0,len(rarete)-1)]
@@ -332,7 +333,7 @@ def launchRoom():
     else:
         if character.room != 1:
             monstre.resetMonstre()
-        print(f"\n--------------------------------\n\nVous vous approchez d'une porte en bois avec le chiffre \"{character.room}\" insrit dessus, vous l'ouvrez et...\n {monstre.type} apparaît !")
+        print(f"\n--------------------------------\n\nVous vous approchez d'une porte en bois avec le chiffre \"{character.room}\" insrit dessus, vous l'ouvrez et...\nUn/e {monstre.type} apparaît !")
         time.sleep(2)
         rounds.length = 0
         if monstre.boss == True:
