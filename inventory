@@ -1,5 +1,1 @@
-class inventory:
-    def __init__(self):
-        self.item = {"Potion de Soin": 2, "Potion de Mana: 2}
-        self.armor = ["Tunique de Cuire"]
-        self.weapon = ["Baton]
+https://programiz.pro/ide/python/HANLKCIBQA?utm_medium=playground&utm_source=python_playground-shared-project-link
