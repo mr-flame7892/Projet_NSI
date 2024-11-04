@@ -260,7 +260,6 @@ def characterAttacks():
                 character.calculateStats()
                 print(f"--------------------------------\n\n🎉 Félicitations !\nVous êtes monté au niveau supérieur ! ({character.lvl - 1} -> {character.lvl} ({character.exp} exp / {character.limitExp} exp)\nVos stats ont été mises à jour !\n")
         print(f"--------------------------------\n\nVous avez triomphé du mal, cependant il vous reste du chemin à parcourir...\n")
-        input("--------------------------------\n\nAppuyez sur entrée quand vous êtes prêt à passer à la prochaine salle !")
         if monstre.boss==True:
             rarete=rarityPicker()
             item=rarete[random.randint(0,len(rarete)-1)]
@@ -382,7 +381,7 @@ def askTuto():
     tuto = input("tuto ? (y/n) : ")
 
     if tuto == "y":
-        print("Cher joueur, vous allez découvrir un jeux codé grâce aux connaissances acquises en spé N.S.I :\n-----------------------\nLe jeu se joue avec la console et est uniquement textuel suivez les instructions et profitez du jeu !\n----------------------- ")
+        print("Cher joueur, vous allez découvrir un jeux codé grâce aux connaissances acquises en spé N.S.I :\n-----------------------\nLe jeu se joue avec la console de Thonny et est uniquement textuel suivez les instructions et profitez du jeu !\n----------------------- ")
         input("Appuyez sur entrée quand vous êtes prêt !")
         launchGame()
     elif tuto == "n":
