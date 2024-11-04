@@ -103,7 +103,7 @@ class monstres:
         self.boss = False
         chanceBoss = random.randint(1,100)
         
-        if (chanceBoss <= 100) and (character.room > 1):
+        if (chanceBoss <= 20) and (character.room > 1):
             self.boss = True
         
     def getStats(self):
@@ -324,9 +324,9 @@ def launchRoom():
     if character.room % 5 == 0:
         print("\n--------------------------------\n\nDès lors que vous vous approchez de la prochaine salle, vous entendez l'entité poussé un bruit résonnant dans tout le donjon !\nCela signifie que ses soldats ont gagnés en puissance, prenez garde !")
         monstre.pv = round(monstre.pv + monstre.pv * 15/100, 0)
-        monstre.attack = monstre.attack * 2 + 6
+        monstre.attack = round(monstre.attack + 4 + monstre.lvl * 25/100, 0)
         monstre.speed = round(monstre.speed + monstre.speed * 20/100, 0)
-        monstre.defence = monstre.defence * 2 + 2
+        monstre.defence = round(monstre.defence + 6 + monstre.lvl * 25/100, 0)
         monstre.lvl = monstre.lvl + 1
         shop()
         character.room = character.room + 1
