@@ -64,6 +64,7 @@ class character:
         self.room = 1
         self.gold = 0
         self.calculateStats()
+        return
             
 
 character = character()
@@ -153,13 +154,13 @@ def shop(ItemsShop):
         if character.gold >= item['prix']:
             if item["type"] == "dmg":
                 character.weapon["name"] = item["name"]
-                character.weapon["dmg"] = item["stat"]
+                character.weapon["stat"] = item["stat"]
             elif item["type"] == "def":
                 character.armor["name"] = item["name"]
-                character.armor["def"] = item["stat"]
+                character.armor["stat"] = item["stat"]
             elif item["type"] == "speed":
                 character.boots["name"] = item["name"]
-                character.boots["speed"] = item["stat"]
+                character.boots["stat"] = item["stat"]
         else:
             print("\n--------------------------------\n\nVous n'avez pas assez de PO !\n--------------------------------")
             return shop(ItemsShop)
@@ -168,13 +169,13 @@ def shop(ItemsShop):
         if character.gold >= item['prix']:
             if item["type"] == "dmg":
                 character.weapon["name"] = item["name"]
-                character.weapon["dmg"] = item["stat"]
+                character.weapon["stat"] = item["stat"]
             elif item["type"] == "def":
                 character.armor["name"] = item["name"]
-                character.armor["def"] = item["stat"]
+                character.armor["stat"] = item["stat"]
             elif item["type"] == "speed":
                 character.boots["name"] = item["name"]
-                character.boots["speed"] = item["stat"]
+                character.boots["stat"] = item["stat"]
         else:
             print("\n--------------------------------\n\nVous n'avez pas assez de PO !\n--------------------------------")
             return shop(ItemsShop)
@@ -183,13 +184,13 @@ def shop(ItemsShop):
         if character.gold >= item['prix']:
             if item["type"] == "dmg":
                 character.weapon["name"] = item["name"]
-                character.weapon["dmg"] = item["stat"]
+                character.weapon["stat"] = item["stat"]
             elif item["type"] == "def":
                 character.armor["name"] = item["name"]
-                character.armor["def"] = item["stat"]
+                character.armor["stat"] = item["stat"]
             elif item["type"] == "speed":
                 character.boots["name"] = item["name"]
-                character.boots["speed"] = item["stat"]
+                character.boots["stat"] = item["stat"]
         else:
             print("\n--------------------------------\n\nVous n'avez pas assez de PO !\n--------------------------------")
             return shop(ItemsShop)
