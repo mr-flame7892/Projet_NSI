@@ -16,7 +16,7 @@ listRarities = [listItemsCommon, listItemsRare, listItemsEpic, listItemsLegendar
 class character:
     def __init__(self):
         self.startPV = 100
-        self.startDMG = 5
+        self.startDMG = 3
         self.startDef = 5
         self.startSpeed = 30
         self.startMana = 100
