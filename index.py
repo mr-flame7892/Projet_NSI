@@ -141,7 +141,13 @@ def generateShop():
 
 def shop(ItemsShop):
     vente = ItemsShop
-    choix = input(f"\n--------------------------------\n\nVous entrez dans une salle dans laquelle un marchand nommé M.Barret, en récompense de vos exploits, il vous donne 2 potions de soins.\nIl est prêt à vous vendre uniquement 1 de ses 3 items afin de vous aider dans votre quête :\n\n1) {vente[0]['name']} (+{vente[0]['stat']} {vente[0]['type']} prix : {vente[0]['prix']} PO)\n2) {vente[1]['name']} (+{vente[1]['stat']} {vente[1]['type']} prix : {vente[1]['prix']} PO)\n3) {vente[2]['name']} (+{vente[2]['stat']} {vente[2]['type']} prix : {vente[2]['prix']} PO)\n\nVous possédez {character.gold} PO (écrivez le numéro de l'item que vous souhaitez acheter ou bien écrivez \"pass\" pour passer à la prochaine salle): ")
+    itemsAvailability = []
+    for item in vente:
+        if item["prix"] > character.gold:
+            itemsAvailability.append(f"\033[91m{item['name']}\033[0m")
+        else:
+            itemsAvailability.append(f"\033[92m{item['name']}\033[0m")
+    choix = input(f"\n--------------------------------\n\nVous entrez dans une salle dans laquelle un marchand nommé M.Barret, en récompense de vos exploits, vous offre 2 potions de soins.\nIl est prêt à vous vendre uniquement 1 de ses 3 items afin de vous aider dans votre quête :\n\n1) {itemsAvailability[0]} (+{vente[0]['stat']} {vente[0]['type']} prix : {vente[0]['prix']} PO)\n2) {itemsAvailability[1]} (+{vente[1]['stat']} {vente[1]['type']} prix : {vente[1]['prix']} PO)\n3) {itemsAvailability[2]} (+{vente[2]['stat']} {vente[2]['type']} prix : {vente[2]['prix']} PO)\n\nVous possédez {character.gold} PO (écrivez le numéro de l'item que vous souhaitez acheter ou bien écrivez \"pass\" pour passer à la prochaine salle): ")
     if choix == '1':
         item = vente[0]
         if character.gold >= item['prix']:
@@ -205,7 +211,7 @@ class tour:
 rounds = tour()
         
 def askPlayer():
-    question = input("\n--------------------------------\n\nQuelle action voulez-vous réaliser ?\n\n1) attaque\n2) potion\n3) stats\n4) monstre\n5) inventaire\n\nVeuillez marquer le numéro de l'action que vous souhaitez réaliser : ")
+    question = input(f"\n--------------------------------\n\nQuelle action voulez-vous réaliser ?\n\n1) attaque\n2) potion\n3) stats\n4) monstre\n5) inventaire\n\nVous avez:\n\n{character.currentPV} PV | {character.currentDMG} DMG | {character.currentDef} DEF | {character.currentSpeed} SPEED\n\nVeuillez marquer le numéro de l'action que vous souhaitez réaliser : ")
     
     if question == "5":
         print("\n--------------------------------\n")
@@ -256,10 +262,12 @@ def characterAttacks():
             nbrEXP = nbrEXP * 2
         print(f"\n--------------------------------\n\n\033[94m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\033[0m\n{monstre.type} s'est pris \033[91m{DMG}\033[0m Dégats\nIl se désintégre sous vous yeux ! (Vous avez reçu {nbrPO} PO et {nbrEXP} points d'exp)\n")
         time.sleep(1)
+        print(f"--------------------------------\n\nVous avez triomphé du mal, cependant il vous reste du chemin à parcourir...\n")
         character.gold = character.gold + nbrPO
         character.exp = character.exp + nbrEXP
         if character.exp >= character.limitExp:
             while character.exp >= character.limitExp:
+                oldStatsPlayer = { "PV": character.currentPV, "DMG": character.currentDMG, "DEF": character.currentDef, "SPEED": character.currentSpeed }
                 character.lvl = character.lvl + 1
                 character.exp = character.exp - character.limitExp
                 character.limitExp = character.limitExp + 50
@@ -268,8 +276,8 @@ def characterAttacks():
                 character.startDef = round(character.startDef + 3 + 15/100 * character.lvl, 0)
                 character.startSpeed = round(character.startSpeed + 3 + 20/100 * character.lvl, 0)
                 character.calculateStats()
-                print(f"--------------------------------\n\n🎉 Félicitations !\nVous êtes monté au niveau supérieur ! ({character.lvl - 1} -> {character.lvl} ({character.exp} exp / {character.limitExp} exp)\nVos stats ont été mises à jour !\n")
-        print(f"--------------------------------\n\nVous avez triomphé du mal, cependant il vous reste du chemin à parcourir...\n")
+                print(f'--------------------------------\n\n🎉 Félicitations !\nVous êtes monté au niveau supérieur ! ({character.lvl - 1} -> {character.lvl} ({character.exp} exp / {character.limitExp} exp)\n\nVos stats ont été mises à jour :\n\n- {oldStatsPlayer["PV"]} PV --> {character.currentPV} PV\n- {oldStatsPlayer["DMG"]} DMG --> {character.currentDMG} DMG\n- {oldStatsPlayer["DEF"]} DEF --> {character.currentDef} DEF\n- {oldStatsPlayer["SPEED"]} SPEED --> {character.currentSpeed} SPEED\n')
+                time.sleep(2)
         if monstre.boss==True:
             rarete=rarityPicker()
             item=rarete[random.randint(0, len(rarete))]
@@ -286,7 +294,7 @@ def characterAttacks():
         return launchRoom()
     else:
         print(f"\n--------------------------------\n\n\033[94m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\033[0m\n{monstre.type} s'est pris \033[91m{DMG}\033[0m Dégats\nIl lui reste \033[92m{monstre.currentPV}\033[0m PV !")
-        time.sleep(1)
+        time.sleep(1.3)
         monstreAttacks()
 
 
@@ -303,7 +311,7 @@ def monstreAttacks():
         reAskGameOver()
     else:
         print(f"\n--------------------------------\n\n\033[91m{rounds.TypeTurn} Round {rounds.length} | Salle n°{character.room} :\033[0m\nVous vous êtes pris \033[91m{DMG}\033[0m Dégats\nIl vous reste \033[92m{character.currentPV}\033[0m PV !")
-        time.sleep(1)
+        time.sleep(2)
         askPlayer()
 
 
@@ -321,7 +329,8 @@ def reAskGameOver():
 
 def launchRoom():
     if character.room % 5 == 0:
-        print("\n--------------------------------\n\nDès lors que vous vous approchez de la prochaine salle, vous entendez l'entité poussé un bruit résonnant dans tout le donjon !\nCela signifie que ses soldats ont gagnés en puissance, prenez garde !")
+        print("\n--------------------------------\n\nDès lors que vous vous approchez de la prochaine salle, vous entendez l'entité poussé un bruit résonnant dans tout le donjon !\nLa légende raconte que ce cri permet à ses soldats de gagner en puissance, prenez garde !")
+        time.sleep(2)
         monstre.pv = round(monstre.pv + monstre.pv * 15/100, 0)
         monstre.attack = round(monstre.attack + 4 + monstre.lvl * 25/100, 0)
         monstre.speed = round(monstre.speed + monstre.speed * 20/100, 0)
@@ -335,7 +344,7 @@ def launchRoom():
         if character.room != 1:
             monstre.resetMonstre()
         print(f"\n--------------------------------\n\nVous vous approchez d'une porte en bois avec le chiffre \"{character.room}\" insrit dessus, vous l'ouvrez et...\nUn/e {monstre.type} apparaît !")
-        time.sleep(2)
+        time.sleep(1.3)
         rounds.length = 0
         if monstre.boss == True:
                 i = 0
@@ -352,6 +361,7 @@ def launchRoom():
                     i = i + 1
                 print(f"--------------------------------\n\n\033[91m⚠ Un boss est aparu ! ⚠\033[0m\n")
                 monstre.getStats()
+                time.sleep(2)
         while monstre.currentPV >= 0 and character.currentPV >= 0:
             if monstre.currentSpeed < character.currentSpeed:
                 askPlayer()
@@ -369,16 +379,16 @@ def launchGame():
                   
 def askTuto():
 
-    print(("""\
+    print(("""\033[91m
  _____                   _             _    _   _             _            
 |_   _|                 (_)           | |  | | | |           | |           
   | | ___ _ __ _ __ ___  _ _ __   __ _| |  | |_| |_   _ _ __ | |_ ___ _ __ 
   | |/ _ \ '__| '_ ` _ \| | '_ \ / _` | |  |  _  | | | | '_ \| __/ _ \ '__|
   | |  __/ |  | | | | | | | | | | (_| | |  | | | | |_| | | | | ||  __/ |   
   \_/\___|_|  |_| |_| |_|_|_| |_|\__,_|_|  \_| |_/\__,_|_| |_|\__\___|_|                                                             
-"""))
+\033[0m"""))
     
-    print(f"v{version}\n\n------------------------------------------------------------------------------")
+    print(f"\033[91mv{version}\033[0m\n\n------------------------------------------------------------------------------")
     
     tuto = input("Souhaitez-vous accéder au tutoriel ? (y/n) : ")
 
@@ -392,3 +402,4 @@ def askTuto():
         askTuto()
 
 askTuto()
+
