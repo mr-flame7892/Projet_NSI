@@ -84,6 +84,7 @@ class monstres:
         self.currentDef = self.defence
         self.currentSpeed = self.speed
         self.currentDMG = self.attack
+        self.lvlMultiplicator = 1
 
         chanceBoss = random.randint(1,100)
         
@@ -102,6 +103,7 @@ class monstres:
         self.currentSpeed = self.speed
         self.currentDMG = self.attack
         self.boss = False
+        self.lvlMultiplicator = self.lvlMultiplicator
         chanceBoss = random.randint(1,100)
         
         if (chanceBoss <= 20) and (character.room > 1):
@@ -153,12 +155,24 @@ def shop(ItemsShop):
         item = vente[0]
         if character.gold >= item['prix']:
             if item["type"] == "dmg":
+                if character.weapon["stat"] >= item["stat"]:
+                    print("\n--------------------------------\n\nVous ne pouvez acheter un item qui a des stats inférieures à votre item !")
+                    time.sleep(3)
+                    return shop(ItemsShop)
                 character.weapon["name"] = item["name"]
                 character.weapon["stat"] = item["stat"]
             elif item["type"] == "def":
+                if character.armor["stat"] >= item["stat"]:
+                    print("\n--------------------------------\n\nVous ne pouvez acheter un item qui a des stats inférieures à votre item !")
+                    time.sleep(3)
+                    return shop(ItemsShop)
                 character.armor["name"] = item["name"]
                 character.armor["stat"] = item["stat"]
             elif item["type"] == "speed":
+                if character.boots["stat"] >= item["stat"]:
+                    print("\n--------------------------------\n\nVous ne pouvez acheter un item qui a des stats inférieures à votre item !")
+                    time.sleep(3)
+                    return shop(ItemsShop)
                 character.boots["name"] = item["name"]
                 character.boots["stat"] = item["stat"]
         else:
@@ -168,12 +182,24 @@ def shop(ItemsShop):
         item = vente[1]
         if character.gold >= item['prix']:
             if item["type"] == "dmg":
+                if character.weapon["stat"] >= item["stat"]:
+                    print("\n--------------------------------\n\nVous ne pouvez acheter un item qui a des stats inférieures à votre item !")
+                    time.sleep(3)
+                    return shop(ItemsShop)
                 character.weapon["name"] = item["name"]
                 character.weapon["stat"] = item["stat"]
             elif item["type"] == "def":
+                if character.armor["stat"] >= item["stat"]:
+                    print("\n--------------------------------\n\nVous ne pouvez acheter un item qui a des stats inférieures à votre item !")
+                    time.sleep(3)
+                    return shop(ItemsShop)
                 character.armor["name"] = item["name"]
                 character.armor["stat"] = item["stat"]
             elif item["type"] == "speed":
+                if character.boots["stat"] >= item["stat"]:
+                    print("\n--------------------------------\n\nVous ne pouvez acheter un item qui a des stats inférieures à votre item !")
+                    time.sleep(3)
+                    return shop(ItemsShop)
                 character.boots["name"] = item["name"]
                 character.boots["stat"] = item["stat"]
         else:
@@ -183,12 +209,24 @@ def shop(ItemsShop):
         item = vente[2]
         if character.gold >= item['prix']:
             if item["type"] == "dmg":
+                if character.weapon["stat"] >= item["stat"]:
+                    print("\n--------------------------------\n\nVous ne pouvez acheter un item qui a des stats inférieures à votre item !")
+                    time.sleep(3)
+                    return shop(ItemsShop)
                 character.weapon["name"] = item["name"]
                 character.weapon["stat"] = item["stat"]
             elif item["type"] == "def":
+                if character.armor["stat"] >= item["stat"]:
+                    print("\n--------------------------------\n\nVous ne pouvez acheter un item qui a des stats inférieures à votre item !")
+                    time.sleep(3)
+                    return shop(ItemsShop)
                 character.armor["name"] = item["name"]
                 character.armor["stat"] = item["stat"]
             elif item["type"] == "speed":
+                if character.boots["stat"] >= item["stat"]:
+                    print("\n--------------------------------\n\nVous ne pouvez acheter un item qui a des stats inférieures à votre item !")
+                    time.sleep(3)
+                    return shop(ItemsShop)
                 character.boots["name"] = item["name"]
                 character.boots["stat"] = item["stat"]
         else:
@@ -202,6 +240,7 @@ def shop(ItemsShop):
     character.gold = character.gold - vente[int(choix) - 1]['prix']
     character.calculateStats()
     print(f"\n--------------------------------\n\nVous avez acheté un/e {vente[int(choix) - 1]['name']} pour {vente[int(choix) - 1]['prix']} PO, la salle se fait soudainement envahir par les ténèbres puis après quelques secondes, cette dernière revient à la normale cependant, il ne reste plus que vous !")
+    time.sleep(3)
     return
 
 class tour:
@@ -258,6 +297,25 @@ def askPlayer():
         character.getStats()
         time.sleep(3)
         return askPlayer()
+    elif question == "02":
+        print(monstre.lvlMultiplicator)
+        if monstre.lvlMultiplicator == 1:
+            print(f"\n--------------------------------\n\nBravo, vous avez trouvé l'un des codes de triche disponible dans le jeu !\nLes monstres sont plus forts que dans une partie classique, bonne chance !")
+            time.sleep(2)
+            monstre.lvlMultiplicator = 2
+            monstre.pv = round(monstre.pv * monstre.lvlMultiplicator, 0)
+            monstre.attack = round(monstre.attack * monstre.lvlMultiplicator, 0)
+            monstre.speed = round(monstre.speed * monstre.lvlMultiplicator, 0)
+            monstre.defence = round(monstre.defence * monstre.lvlMultiplicator, 0)
+            monstre.resetMonstre()
+            print("\n--------------------------------\n")
+            monstre.getStats()
+            time.sleep(3)
+            return askPlayer()
+        else:
+            print(f"\n--------------------------------\n\nCe code ne peut pas être activé plus d'une fois !")
+            time.sleep(3)
+            return askPlayer()
     else:
         return askPlayer()
         
@@ -271,8 +329,8 @@ def characterAttacks():
     DMG = round(randomDMG + character.currentDMG - monstre.currentDef / 2, 0)
     monstre.currentPV = round(monstre.currentPV - DMG, 0)
     if monstre.currentPV <= 0:
-        nbrPO = random.randint(100, 250) * monstre.lvl
-        nbrEXP = random.randint(50, 75) * monstre.lvl
+        nbrPO = (random.randint(100, 250) * monstre.lvl) * monstre.lvlMultiplicator
+        nbrEXP = (random.randint(50, 75) * monstre.lvl) * monstre.lvlMultiplicator
         if monstre.boss == True:
             nbrPO = nbrPO * 2
             nbrEXP = nbrEXP * 2
@@ -347,10 +405,10 @@ def launchRoom():
     if character.room % 5 == 0:
         print("\n--------------------------------\n\nDès lors que vous vous approchez de la prochaine salle, vous entendez l'entité poussé un bruit résonnant dans tout le donjon !\nLa légende raconte que ce cri permet à ses soldats de gagner en puissance, prenez garde !")
         time.sleep(2)
-        monstre.pv = round(monstre.pv + monstre.pv * 15/100, 0)
-        monstre.attack = round(monstre.attack + 4 + monstre.lvl * 25/100, 0)
-        monstre.speed = round(monstre.speed + monstre.speed * 20/100, 0)
-        monstre.defence = round(monstre.defence + 6 + monstre.lvl * 25/100, 0)
+        monstre.pv = round(monstre.pv + monstre.pv * 15/100, 0) * monstre.lvlMultiplicator
+        monstre.attack = round(monstre.attack + 4 + monstre.lvl * 25/100, 0) * monstre.lvlMultiplicator
+        monstre.speed = round(monstre.speed + monstre.speed * 20/100, 0) * monstre.lvlMultiplicator
+        monstre.defence = round(monstre.defence + 6 + monstre.lvl * 25/100, 0) * monstre.lvlMultiplicator
         monstre.lvl = monstre.lvl + 1
         currentItemsShop = generateShop()
         character.items["PotionSoin"] = character.items["PotionSoin"] + 2
