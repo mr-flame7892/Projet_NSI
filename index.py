@@ -210,6 +210,8 @@ class tour:
         self.TypeTurn = None
         
 rounds = tour()
+
+Unknown = {"name": "Gros bâton!!!!!!", "stat": 9999, "prix": 0, "type": "dmg", "rarety": "Mythic"}
         
 def askPlayer():
     question = input(f"\n--------------------------------\n\nQuelle action voulez-vous réaliser ?\n\n1) attaque\n2) potion\n3) stats\n4) monstre\n5) inventaire\n\nVous avez:\n\n{character.currentPV} PV | {character.currentDMG} DMG | {character.currentDef} DEF | {character.currentSpeed} SPEED\n\nVeuillez marquer le numéro de l'action que vous souhaitez réaliser : ")
@@ -246,6 +248,16 @@ def askPlayer():
             return askPlayer()
         else:
             return askPlayer()
+    elif question == "9999":
+        print(f"\n--------------------------------\n\nBravo, vous avez trouvé l'un des codes de triche disponible dans le jeu !\nPar conséquent vous avez reçu un {Unknown['name']}")
+        time.sleep(3)
+        character.weapon["name"] = Unknown["name"]
+        character.weapon["stat"] = Unknown["stat"]
+        character.calculateStats()
+        print(f"\n--------------------------------\n")
+        character.getStats()
+        time.sleep(3)
+        return askPlayer()
     else:
         return askPlayer()
         
@@ -292,8 +304,8 @@ def characterAttacks():
             if item["type"]=="speed":
                 character.boots=item
             print("--------------------------------")
-            print(f"\nUn coffre apparait dans le fond de la salle, vous l'ouvrez et trouvez {item['name']} ({item['stat']} {item['type'].upper()})\n")
-        input("--------------------------------\n\nAppuyez sur entrée quand vous êtes prêt...")
+            print(f"\nUn coffre apparait dans le fond de la salle, vous l'ouvrez et trouvez {item['name']} ({item['stat']} {item['type'].upper()})")
+        input("\n--------------------------------\n\nAppuyez sur entrée quand vous êtes prêt...")
         character.room = character.room + 1
         return launchRoom()
     else:
@@ -406,3 +418,4 @@ def askTuto():
         askTuto()
 
 askTuto()
+
